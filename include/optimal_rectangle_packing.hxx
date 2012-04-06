@@ -6,9 +6,9 @@
 namespace packing {
   class Rectangle;
   
-  class MinArea {
+  class OptimalRectanglePacking {
   public:
-    MinArea(const std::vector<Rectangle>& input);    
+    OptimalRectanglePacking(const std::vector<Rectangle>& input);    
     int compute () const;
   private:
     const std::vector<Rectangle>& input;

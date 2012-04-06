@@ -1,12 +1,12 @@
 #include "gtest/gtest.h"
 #include "rectangle.hxx"
-#include "min_area.hxx"
+#include "optimal_rectangle_packing.hxx"
 
 #include <iostream>
 
 using namespace packing;
 
-TEST(MIN_AREA, EXAMPLE)
+TEST(OPTIMAL_RECTANGLE_PACKING, EXAMPLE)
 {
   const std::vector<Rectangle> input = {
     Rectangle(8, 8),
@@ -14,9 +14,9 @@ TEST(MIN_AREA, EXAMPLE)
     Rectangle(3, 4)
   };
 
-  std::cout << MinArea(input).compute();
+  std::cout << OptimalRectanglePacking(input).compute();
     
-  EXPECT_EQ(88, MinArea(input).compute());
+  EXPECT_EQ(88, OptimalRectanglePacking(input).compute());
 }
 
 int main(int argc, char **argv) {
