@@ -30,8 +30,8 @@ namespace packing {
       bool operator()(const Rectangle & first, const Rectangle & second) const;
     };
   private:
-    int height;
     int width;
+    int height;
   };
 }
 

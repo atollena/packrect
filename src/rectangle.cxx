@@ -29,6 +29,16 @@ namespace packing {
     return other.width == width && other.height == height;
   }
 
+  int Rectangle::getH() const
+  {
+    return height;
+  }
+
+  int Rectangle::getW() const
+  {
+    return width;
+  }
+
   bool Rectangle::BiggerWidth::operator()(const Rectangle & first,
                                           const Rectangle & second) const
   {
