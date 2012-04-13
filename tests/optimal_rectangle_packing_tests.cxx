@@ -1,26 +1,18 @@
 #include "gtest/gtest.h"
 #include "rectangle.hxx"
 #include "optimal_rectangle_packing.hxx"
-
-#include <iostream>
+#include "rectangle_containment_solver.hxx"
 
 using namespace packing;
 
-TEST(OPTIMAL_RECTANGLE_PACKING, EXAMPLE)
+TEST(OptimalRectanglePacking, SiteExample)
 {
   const std::vector<Rectangle> input = {
     Rectangle(8, 8),
     Rectangle(4, 3),
-    Rectangle(3, 4)
+    Rectangle(4, 3)
   };
 
-  std::cout << OptimalRectanglePacking(input).compute();
-    
-  EXPECT_EQ(88, OptimalRectanglePacking(input).compute());
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest( &argc, argv );
-  return RUN_ALL_TESTS();
+  EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 88);
 }
 

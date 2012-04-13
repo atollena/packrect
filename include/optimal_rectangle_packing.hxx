@@ -5,13 +5,18 @@
 
 namespace packing {
   class Rectangle;
+  class RectanglePosition;
+  class BoundingBox;
   
   class OptimalRectanglePacking {
   public:
-    OptimalRectanglePacking(const std::vector<Rectangle>& input);    
-    int compute () const;
+    typedef std::pair<BoundingBox,
+                      std::vector<RectanglePosition>> Packing;
+
+    OptimalRectanglePacking(const std::vector<Rectangle> input);
+    Packing compute () const;
   private:
-    const std::vector<Rectangle>& input;
+    std::vector<Rectangle> input;
   };
 }
 

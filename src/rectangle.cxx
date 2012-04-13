@@ -1,13 +1,17 @@
+#include <assert.h>
+
 #include "rectangle.hxx"
 
 namespace packing {
-
-  Rectangle::Rectangle(int height, int width)
-    : height(height), width(width)
-  {}
+  Rectangle::Rectangle(int width, int height)
+    : width(width), height(height)
+  {
+    // Check that we meet the class requirements
+    assert(width >= height);
+  }
 
   Rectangle::Rectangle(const Rectangle & other)
-    : height(other.height), width(other.width)
+    : width(other.width), height(other.height)
   {}
 
   Rectangle::~Rectangle () {}
@@ -18,5 +22,16 @@ namespace packing {
     height = other.height;
     width = other.width;
     return *this;
+  }
+
+  bool Rectangle::operator== (const Rectangle & other) const
+  {
+    return other.width == width && other.height == height;
+  }
+
+  bool Rectangle::BiggerWidth::operator()(const Rectangle & first,
+                                          const Rectangle & second) const
+  {
+    return first.width > second.width;
   }
 }
