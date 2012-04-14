@@ -10,16 +10,16 @@ namespace packing {
   class Rectangle;
 
   /**
+   * Rectangle identifier
+   */
+  typedef int RectangleId;
+
+  /**
    * Keeps track of what is currently filled with a rectangle and what
    * is free in the bounding box. Should have decent performance.
    */
   class BoxOccupationMatrix {
   public:
-    enum Content {
-      FREE,
-      OCCUPIED
-    };
-    
     /**
      * Creates a new matrix of size width * height
      */
@@ -28,15 +28,16 @@ namespace packing {
     /**
      * Checks if position x, y is occupied
      *
-     * @return true if the 
+     * @return true if the
      */
-    Content query(const RectanglePosition & position) const;
+    RectangleId query(const RectanglePosition & position) const;
 
     /**
      * Set area for given rectangle and position as occupied
      */
     void set(const Rectangle & rectangle,
-             const RectanglePosition & position);
+             const RectanglePosition & position,
+             const RectangleId & );
 
     /**
      * Reset area for given rectangle and position as free
@@ -45,22 +46,24 @@ namespace packing {
                const RectanglePosition & position);
 
     /**
-     * Reset the entire matrix to unoccupied
+     * Print out the content of the matrix in a user-friendly fashion
      */
-    void reset();
-
     friend std::ostream& operator<<(std::ostream& out, const BoxOccupationMatrix& box);
 
   private:
-    std::vector<Content> matrix;
+    std::vector<RectangleId> matrix;
     const int width;
     const int height;
 
-    void set(const Rectangle & rectangle,
-             const RectanglePosition & position,
-             Content content);
-    std::vector<Content>::iterator at(int x, int y);
-    Content at(int x, int y) const;
+    /**
+     * Return an iterator pointing to coording x, y
+     */
+    std::vector<RectangleId>::iterator at(int x, int y);
+
+    /**
+     * Returns the element with coordonate x, y
+     */
+    RectangleId at(int x, int y) const;
   };
 }
 

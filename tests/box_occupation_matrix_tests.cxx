@@ -9,22 +9,27 @@ using namespace packing;
 
 class BoxOccupationMatrixTests : public testing::Test {
 protected:
-  typedef BoxOccupationMatrix::Content Content;
-
   static const int WIDTH = 30;
   static const int HEIGHT = 15;
 
   Rectangle rectangle_exemple;
   RectanglePosition position_exemple;
   BoxOccupationMatrix testBox;
+  RectangleId rectangleExempleId;
+
 
   BoxOccupationMatrixTests()
-    : rectangle_exemple(5, 3), position_exemple(9, 4), testBox(WIDTH, HEIGHT)
+    : rectangle_exemple(5, 3),
+      position_exemple(9, 4),
+      testBox(WIDTH, HEIGHT),
+      rectangleExempleId(0)
   {}
 
   virtual void SetUp()
   {
-    testBox.set(rectangle_exemple, position_exemple);
+    testBox.set(rectangle_exemple,
+                position_exemple,
+                rectangleExempleId);
   }
 
   // Let's define some positions we'd like to check
@@ -59,30 +64,30 @@ protected:
 
 TEST_F(BoxOccupationMatrixTests, Query)
 {
-  EXPECT_EQ(Content::OCCUPIED, testBox.query(position_exemple)) << testBox;
-  EXPECT_EQ(Content::OCCUPIED, testBox.query(ExampleRectangleTopRight())) << testBox;
-  EXPECT_EQ(Content::OCCUPIED, testBox.query(ExampleRectangleMiddle())) << testBox;
+  EXPECT_EQ(rectangleExempleId, testBox.query(position_exemple)) << testBox;
+  EXPECT_EQ(rectangleExempleId, testBox.query(ExampleRectangleTopRight())) << testBox;
+  EXPECT_EQ(rectangleExempleId, testBox.query(ExampleRectangleMiddle())) << testBox;
 
-  EXPECT_EQ(Content::FREE, testBox.query(BottomLeftCorner())) << testBox;
-  EXPECT_EQ(Content::FREE, testBox.query(TopRightCorner())) << testBox;
+  EXPECT_EQ(-1, testBox.query(BottomLeftCorner())) << testBox;
+  EXPECT_EQ(-1, testBox.query(TopRightCorner())) << testBox;
 
-  EXPECT_EQ(Content::FREE, testBox.query(ExampleRectangleBottomLeftOutside())) << testBox;
-  EXPECT_EQ(Content::FREE, testBox.query(ExampleRectangleTopRightOutside())) << testBox;
+  EXPECT_EQ(-1, testBox.query(ExampleRectangleBottomLeftOutside())) << testBox;
+  EXPECT_EQ(-1, testBox.query(ExampleRectangleTopRightOutside())) << testBox;
 }
 
 TEST_F(BoxOccupationMatrixTests, Unset)
 {
   testBox.unset(rectangle_exemple, position_exemple);
 
-  EXPECT_EQ(Content::FREE, testBox.query(ExampleRectangleBottomLeft())) << testBox;
-  EXPECT_EQ(Content::FREE, testBox.query(ExampleRectangleTopRight())) << testBox;
-  EXPECT_EQ(Content::FREE, testBox.query(ExampleRectangleMiddle())) << testBox;
+  EXPECT_EQ(-1, testBox.query(ExampleRectangleBottomLeft())) << testBox;
+  EXPECT_EQ(-1, testBox.query(ExampleRectangleTopRight())) << testBox;
+  EXPECT_EQ(-1, testBox.query(ExampleRectangleMiddle())) << testBox;
 }
 
 TEST_F(BoxOccupationMatrixTests, Set)
 {
-  testBox.set(Rectangle(5, 3), RectanglePosition(0,0));
+  static const int rectangle_id = 12;
+  testBox.set(Rectangle(5, 3), RectanglePosition(0,0), rectangle_id);
 
-  EXPECT_EQ(Content::OCCUPIED, testBox.query(BottomLeftCorner())) << testBox;
+  EXPECT_EQ(rectangle_id, testBox.query(BottomLeftCorner())) << testBox;
 }
-
