@@ -27,11 +27,13 @@ TEST(Rectangle, EasySort)
   EXPECT_EQ(input, sorted);
 }
 
-TEST(Rectangle, EmptySort)
+TEST(Rectangle, BiggerWidth)
 {
-  std::vector<Rectangle> input = {};
+  auto rec1 = Rectangle(8, 8);
+  auto rec2 = Rectangle(4, 3);
+  auto rec3 = Rectangle(4, 2);
 
-  std::sort(input.begin(), input.end(), Rectangle::BiggerWidth());
-
-  EXPECT_TRUE(input.empty());
+  EXPECT_TRUE(Rectangle::BiggerWidth()(rec1, rec2));
+  EXPECT_FALSE(Rectangle::BiggerWidth()(rec3, rec2));
+  EXPECT_FALSE(Rectangle::BiggerWidth()(rec2, rec1));
 }

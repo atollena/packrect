@@ -47,3 +47,45 @@ TEST(RectangleContainmentSolver, SiteExampleBoundingBoxTooSmall)
 
   EXPECT_TRUE(result.empty());
 }
+
+TEST(RectangleContainmentSolver, Square10)
+{
+  std::vector<Rectangle> input;
+  for(int i = 1; i <= 10; i++) {
+    input.push_back(Rectangle(i, i));
+  }
+
+  // Bouding box one size too small
+  auto result = RectangleContainmentSolver(input, BoundingBox(26, 15)).compute();
+
+  EXPECT_TRUE(result.empty());
+
+  result = RectangleContainmentSolver(input, BoundingBox(27, 15)).compute();
+
+  EXPECT_FALSE(result.empty());
+}
+
+TEST(RectangleContainmentSolver, Rectangle10_tooSmall)
+{
+  std::vector<Rectangle> input;
+  for(int i = 0; i < 10; i++) {
+    input.push_back(Rectangle(i + 1, i));
+  }
+
+  // Bouding box one size too small
+  auto result = RectangleContainmentSolver(input, BoundingBox(26, 16)).compute();
+
+  EXPECT_TRUE(result.empty());
+}
+
+TEST(RectangleContainmentSolver, Rectangle10)
+{
+  std::vector<Rectangle> input;
+  for(int i = 0; i < 10; i++) {
+    input.push_back(Rectangle(i + 1, i));
+  }
+
+  auto result = RectangleContainmentSolver(input, BoundingBox(26, 17)).compute();
+
+  EXPECT_FALSE(result.empty());
+}

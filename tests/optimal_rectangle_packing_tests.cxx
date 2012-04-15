@@ -16,3 +16,22 @@ TEST(OptimalRectanglePacking, SiteExample)
   EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 88);
 }
 
+TEST(OptimalRectanglePacking, Square10)
+{
+  std::vector<Rectangle> input;
+  for(int i = 1; i <= 10; i++) {
+    input.push_back(Rectangle(i, i));
+  }
+
+  EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 15*27);
+}
+
+TEST(OptimalRectanglePacking, Rectangle10)
+{
+  std::vector<Rectangle> input;
+  for(int i = 0; i < 10; i++) {
+    input.push_back(Rectangle(i + 1, i));
+  }
+
+  EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 17*26);
+}
