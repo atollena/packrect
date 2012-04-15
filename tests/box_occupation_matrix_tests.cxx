@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
+#include "bounding_box.hxx"
 #include "box_occupation_matrix.hxx"
 #include "rectangle.hxx"
 #include "rectangle_position.hxx"
-
 
 using namespace packing;
 
@@ -20,8 +20,8 @@ protected:
 
   BoxOccupationMatrixTests()
     : rectangle_exemple(5, 3),
-      position_exemple(9, 4),
-      testBox(WIDTH, HEIGHT),
+      position_exemple(Point(9, 4), false),
+      testBox(BoundingBox(WIDTH, HEIGHT)),
       rectangleExempleId(0)
   {}
 
@@ -33,40 +33,49 @@ protected:
   }
 
   // Let's define some positions we'd like to check
-  RectanglePosition ExampleRectangleBottomLeft() {
-    return RectanglePosition(position_exemple);
+  Point ExampleRectangleBottomLeft() {
+    return position_exemple.getLeftBottom();
   }
 
-  RectanglePosition ExampleRectangleMiddle() {
-    return RectanglePosition(position_exemple.getX() + rectangle_exemple.getW() / 2,
-                             position_exemple.getY() + rectangle_exemple.getH() / 2);
+  Point ExampleRectangleMiddle() {
+    return Point(position_exemple.getLeftBottomX()
+                             + rectangle_exemple.getW() / 2,
+                             position_exemple.getLeftBottomY()
+                             + rectangle_exemple.getH() / 2);
   }
-  RectanglePosition ExampleRectangleTopRight() {
-    return RectanglePosition(position_exemple.getX() + rectangle_exemple.getW() - 1,
-                             position_exemple.getY() + rectangle_exemple.getH() - 1);
+  Point ExampleRectangleTopRight() {
+    return Point(position_exemple.getLeftBottomX()
+                             + rectangle_exemple.getW() - 1,
+                             position_exemple.getLeftBottomY()
+                             + rectangle_exemple.getH() - 1);
   }
-  RectanglePosition ExampleRectangleBottomLeftOutside() {
-    return RectanglePosition(position_exemple.getX() - 1,
-                             position_exemple.getY());
+  Point ExampleRectangleBottomLeftOutside() {
+    return Point(position_exemple.getLeftBottomX() - 1,
+                             position_exemple.getLeftBottomY());
   }
-  RectanglePosition ExampleRectangleTopRightOutside() {
-    return RectanglePosition(position_exemple.getX() + rectangle_exemple.getW(),
-                             position_exemple.getY() + rectangle_exemple.getH() + 1);
+  Point ExampleRectangleTopRightOutside() {
+    return Point(position_exemple.getLeftBottomX()
+                             + rectangle_exemple.getW(),
+                             position_exemple.getLeftBottomY()
+                             + rectangle_exemple.getH() + 1);
   }
 
-  RectanglePosition BottomLeftCorner() {
-    return RectanglePosition(0, 0);
+  Point BottomLeftCorner() {
+    return Point(0, 0);
   }
-  RectanglePosition TopRightCorner() {
-    return RectanglePosition(WIDTH - 1, HEIGHT - 1);
+  Point TopRightCorner() {
+    return Point(WIDTH - 1, HEIGHT - 1);
   }
 };
 
 TEST_F(BoxOccupationMatrixTests, Query)
 {
-  EXPECT_EQ(rectangleExempleId, testBox.query(position_exemple)) << testBox;
-  EXPECT_EQ(rectangleExempleId, testBox.query(ExampleRectangleTopRight())) << testBox;
-  EXPECT_EQ(rectangleExempleId, testBox.query(ExampleRectangleMiddle())) << testBox;
+  EXPECT_EQ(rectangleExempleId,
+            testBox.query(position_exemple.getLeftBottom())) << testBox;
+  EXPECT_EQ(rectangleExempleId,
+            testBox.query(ExampleRectangleTopRight())) << testBox;
+  EXPECT_EQ(rectangleExempleId,
+            testBox.query(ExampleRectangleMiddle())) << testBox;
 
   EXPECT_EQ(-1, testBox.query(BottomLeftCorner())) << testBox;
   EXPECT_EQ(-1, testBox.query(TopRightCorner())) << testBox;
@@ -84,10 +93,14 @@ TEST_F(BoxOccupationMatrixTests, Unset)
   EXPECT_EQ(-1, testBox.query(ExampleRectangleMiddle())) << testBox;
 }
 
-TEST_F(BoxOccupationMatrixTests, Set)
+TEST_F(BoxOccupationMatrixTests, SetVertical)
 {
   static const int rectangle_id = 12;
-  testBox.set(Rectangle(5, 3), RectanglePosition(0,0), rectangle_id);
+  testBox.set(Rectangle(5, 3),
+              RectanglePosition(Point(0, 0), true),
+              rectangle_id);
 
   EXPECT_EQ(rectangle_id, testBox.query(BottomLeftCorner())) << testBox;
+  EXPECT_EQ(-1, testBox.query(Point(4, 2))) << testBox;
+  EXPECT_EQ(rectangle_id, testBox.query(Point(2, 4))) << testBox;
 }

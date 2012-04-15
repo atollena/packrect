@@ -1,15 +1,20 @@
 #include "rectangle_position.hxx"
 
 namespace packing {
-  RectanglePosition::RectanglePosition(int x, int y)
-    :x(x), y(y){}
+  RectanglePosition::RectanglePosition(Point leftBottom, bool vertical)
+    :leftBottom(leftBottom), vertical(vertical)
+  {}
 
   bool RectanglePosition::operator==(const RectanglePosition& other) const
   {
-    return other.x == x && other.y == y;
+    return leftBottom == other.leftBottom && other.vertical == vertical;
   }
 
-  int RectanglePosition::getX() const { return x; }
+  Point RectanglePosition::getLeftBottom() const { return leftBottom; }
 
-  int RectanglePosition::getY() const { return y; }
+  int RectanglePosition::getLeftBottomX() const { return leftBottom.getX(); }
+
+  int RectanglePosition::getLeftBottomY() const { return leftBottom.getY(); }
+
+  bool RectanglePosition::isVertical() const { return vertical; }
 }

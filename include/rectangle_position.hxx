@@ -1,19 +1,23 @@
 #ifndef RECTANGLE_POSITION_HXX
 #define RECTANGLE_POSITION_HXX
 
+#include "point.hxx"
+
 namespace packing {
   /**
    * Stores the position of a rectangle in the bounding box
    */
   class RectanglePosition {
   public:
-    RectanglePosition(int x, int y);
+    RectanglePosition(Point leftBottom, bool vertical);
     bool operator==(const RectanglePosition& other) const;
-    int getX() const;
-    int getY() const;
+    Point getLeftBottom() const;
+    int getLeftBottomX() const;
+    int getLeftBottomY() const;
+    bool isVertical() const;
   private:
-    int x;
-    int y;
+    Point leftBottom;
+    bool vertical;
   };
 }
 

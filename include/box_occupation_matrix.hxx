@@ -8,6 +8,8 @@ namespace packing {
 
   class RectanglePosition;
   class Rectangle;
+  class BoundingBox;
+  class Point;
 
   /**
    * Rectangle identifier
@@ -23,14 +25,14 @@ namespace packing {
     /**
      * Creates a new matrix of size width * height
      */
-    BoxOccupationMatrix(int width, int height);
+    BoxOccupationMatrix(BoundingBox boundingBox);
 
     /**
      * Checks if position x, y is occupied
      *
      * @return true if the
      */
-    RectangleId query(const RectanglePosition & position) const;
+    RectangleId query(const Point & position) const;
 
     /**
      * Set area for given rectangle and position as occupied

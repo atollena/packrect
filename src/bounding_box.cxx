@@ -8,4 +8,7 @@ namespace packing {
   {
     return width*height;
   }
+
+  int BoundingBox::getHeight() const { return height; }
+  int BoundingBox::getWidth() const { return width; }
 }

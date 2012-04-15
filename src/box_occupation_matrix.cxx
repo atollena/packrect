@@ -4,16 +4,19 @@
 
 #include "rectangle.hxx"
 #include "rectangle_position.hxx"
+#include "bounding_box.hxx"
 
 namespace packing {
 
-  BoxOccupationMatrix::BoxOccupationMatrix(int width, int height)
-    :matrix(width*height, -1), width(width), height(height)
+  BoxOccupationMatrix::BoxOccupationMatrix(BoundingBox boundingBox)
+    :matrix(boundingBox.getWidth()*boundingBox.getHeight(), -1),
+     width(boundingBox.getWidth()),
+     height(boundingBox.getHeight())
   {
 
   }
 
-  RectangleId BoxOccupationMatrix::query(const RectanglePosition & position) const
+  RectangleId BoxOccupationMatrix::query(const Point & position) const
   {
     return at(position.getX(), position.getY());
   }
@@ -22,9 +25,15 @@ namespace packing {
                                 const RectanglePosition & position,
                                 const RectangleId& rectangleNumber)
   {
-    for(int i = 0; i < rectangle.getH(); ++i) {
-      std::fill_n(at(position.getX(), position.getY() + i),
-                  rectangle.getW(),
+    int height = rectangle.getH();
+    int width = rectangle.getW();
+    if(position.isVertical()) {
+      std::swap(height, width);
+    }
+
+    for(int i = 0; i < height; ++i) {
+      std::fill_n(at(position.getLeftBottomX(), position.getLeftBottomY() + i),
+                  width,
                   rectangleNumber);
     }
   }

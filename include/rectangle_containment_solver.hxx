@@ -5,6 +5,7 @@
 
 #include "bounding_box.hxx"
 #include "rectangle_position.hxx"
+#include "box_occupation_matrix.hxx"
 
 namespace packing {
   class Rectangle;
@@ -26,15 +27,24 @@ namespace packing {
     /**
      * Solves the containment problem for a given bounding box and a
      * set of rectangles
-     * 
+     *
      * @return a vector with the position of rectangles fitting in the
      *         bounding box, or an empty vector if there is no
      *         solution.
      */
-    std::vector<RectanglePosition> compute() const;
+    std::vector<RectanglePosition> compute();
   private:
+
+    /**
+     *
+     */
+    std::vector<RectanglePosition> firstRectangleCandidatePosition();
+
+
     const std::vector<Rectangle>& input;
     const BoundingBox boundingBox;
+
+    BoxOccupationMatrix occupationMatrix;
   };
 }
 

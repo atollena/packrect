@@ -17,9 +17,9 @@ TEST(RectangleContainmentSolver, SiteExample)
   };
 
   std::vector<RectanglePosition> expectedResult = {
-    RectanglePosition(0,0),
-    RectanglePosition(8,0),
-    RectanglePosition(8,3)
+    RectanglePosition(Point(0, 0), false),
+    RectanglePosition(Point(8, 0), true),
+    RectanglePosition(Point(8, 3), true)
   };
 
   auto result = RectangleContainmentSolver(input, BoundingBox(11, 8)).compute();
@@ -31,7 +31,8 @@ TEST(RectangleContainmentSolver, SiteExample)
     EXPECT_TRUE(std::find(expectedResult.begin(),
                           expectedResult.end(),
                           position) != expectedResult.end())
-      << "position x=" << position.getX() << ", y=" << position.getY() << " not expected";
+      << "position x=" << position.getLeftBottomX()
+      << ", y=" << position.getLeftBottomY() << " not expected";
   }
 }
 

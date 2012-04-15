@@ -5,6 +5,8 @@ namespace packing {
   class BoundingBox {
   public:
     BoundingBox(int width, int height);
+    int getHeight() const;
+    int getWidth() const;
     int area() const;
   private:
     int width;

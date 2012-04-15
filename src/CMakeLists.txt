@@ -1,5 +1,6 @@
 # Solution program
 add_library (packer STATIC
+  point.cxx
   rectangle.cxx
   rectangle_position.cxx
   bounding_box.cxx
