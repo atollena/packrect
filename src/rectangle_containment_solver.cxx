@@ -1,3 +1,5 @@
+#include <deque>
+
 #include "rectangle_containment_solver.hxx"
 #include "rectangle_position.hxx"
 #include "rectangle.hxx"
@@ -6,38 +8,42 @@ namespace packing {
 
   RectangleContainmentSolver::RectangleContainmentSolver(const std::vector<Rectangle>& input,
                                                          const BoundingBox& boundingBox)
-    :input(input), boundingBox(boundingBox), occupationMatrix(boundingBox)
+    :input(input), boundingBox(boundingBox)
   {}
 
   std::vector<RectanglePosition> RectangleContainmentSolver::compute()
   {
-    for(RectanglePosition iter: firstRectangleCandidatePosition()) {
-      occupationMatrix.set(input.front(), iter, 0);
-      // backtrack();
-      occupationMatrix.unset(input.front(), iter);
+    if (input.empty())
+      return std::vector<RectanglePosition>();
+    
+    for(RectanglePosition iter:
+          boundingBox.firstRectangleCandidatePosition(input.front())) {
+      boundingBox.set(input.front(), iter);
+      if(backtrack(++input.begin(), input.end()))
+        break;
+      boundingBox.unset(input.front(), iter);
     }
 
-    return std::vector<RectanglePosition>();
+    return boundingBox.getSolution();
   }
 
-  std::vector<RectanglePosition>
-  RectangleContainmentSolver::firstRectangleCandidatePosition()
+  bool
+  RectangleContainmentSolver::backtrack(std::vector<Rectangle>::const_iterator first,
+                                        std::vector<Rectangle>::const_iterator last)
   {
-    // To exploit the symmetry of the problem: we place the first
-    // rectangle in the bottom left part of the bounding box.
-    int xMax = boundingBox.getWidth() / 2;
-    int yMax = boundingBox.getHeight() / 2;
-
-    std::vector<RectanglePosition> result;
-    result.reserve(xMax * yMax);
-
-    for(int i = 0; i < xMax; ++i) {
-      for(int j = 0; j < yMax; j++) {
-        result.push_back(RectanglePosition(Point(i, j), false));
-        result.push_back(RectanglePosition(Point(i, j), true));
-      }
+    if(first == last)
+      return true;
+    
+    std::deque<RectanglePosition> candidatePositions =
+      boundingBox.candidatePosition(*first);
+    
+    for(RectanglePosition position : candidatePositions) {
+      boundingBox.set(*first, position);
+      if(backtrack(++first, last))
+        return true;
+      boundingBox.unset(*first, position);
     }
-
-    return result;
+    return false;
   }
 }
+

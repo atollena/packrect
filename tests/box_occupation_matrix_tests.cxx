@@ -19,7 +19,7 @@ protected:
 
 
   BoxOccupationMatrixTests()
-    : rectangle_exemple(5, 3),
+    : rectangle_exemple(5, 3, 0),
       position_exemple(Point(9, 4), false),
       testBox(BoundingBox(WIDTH, HEIGHT)),
       rectangleExempleId(0)
@@ -28,8 +28,7 @@ protected:
   virtual void SetUp()
   {
     testBox.set(rectangle_exemple,
-                position_exemple,
-                rectangleExempleId);
+                position_exemple);
   }
 
   // Let's define some positions we'd like to check
@@ -96,9 +95,8 @@ TEST_F(BoxOccupationMatrixTests, Unset)
 TEST_F(BoxOccupationMatrixTests, SetVertical)
 {
   static const int rectangle_id = 12;
-  testBox.set(Rectangle(5, 3),
-              RectanglePosition(Point(0, 0), true),
-              rectangle_id);
+  testBox.set(Rectangle(5, 3, rectangle_id),
+              RectanglePosition(Point(0, 0), true));
 
   EXPECT_EQ(rectangle_id, testBox.query(BottomLeftCorner())) << testBox;
   EXPECT_EQ(-1, testBox.query(Point(4, 2))) << testBox;

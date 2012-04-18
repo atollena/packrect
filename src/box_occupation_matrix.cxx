@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 
 #include "box_occupation_matrix.hxx"
 
@@ -8,22 +9,25 @@
 
 namespace packing {
 
-  BoxOccupationMatrix::BoxOccupationMatrix(BoundingBox boundingBox)
+  BoxOccupationMatrix::BoxOccupationMatrix(const BoundingBox & boundingBox)
     :matrix(boundingBox.getWidth()*boundingBox.getHeight(), -1),
      width(boundingBox.getWidth()),
      height(boundingBox.getHeight())
   {
-
   }
 
   RectangleId BoxOccupationMatrix::query(const Point & position) const
   {
+    assert(position.getX() >= 0);
+    assert(position.getY() >= 0);
+    assert(position.getX() < width);
+    assert(position.getY() < height);
+      
     return at(position.getX(), position.getY());
   }
 
   void BoxOccupationMatrix::set(const Rectangle & rectangle,
-                                const RectanglePosition & position,
-                                const RectangleId& rectangleNumber)
+                                const RectanglePosition & position)
   {
     int height = rectangle.getH();
     int width = rectangle.getW();
@@ -34,14 +38,37 @@ namespace packing {
     for(int i = 0; i < height; ++i) {
       std::fill_n(at(position.getLeftBottomX(), position.getLeftBottomY() + i),
                   width,
-                  rectangleNumber);
+                  rectangle.getId());
     }
   }
 
   void BoxOccupationMatrix::unset(const Rectangle & rectangle,
                                   const RectanglePosition & position)
   {
-    set(rectangle, position, -1);
+    int height = rectangle.getH();
+    int width = rectangle.getW();
+    if(position.isVertical()) {
+      std::swap(height, width);
+    }      
+    set(position.getLeftBottom(),
+        width,
+        height,
+        -1);
+  }
+
+  void BoxOccupationMatrix::set(Point position,
+                                int width,
+                                int height,
+                                RectangleId id)
+  {
+    assert(position.getX() + width <= this->width);
+    assert(position.getY() + height <= this->height);
+                       
+    for(int i = 0; i < height; ++i) {
+      std::fill_n(at(position.getX(), position.getY() + i),
+                  width,
+                  id);
+    }
   }
 
   std::vector<RectangleId>::iterator BoxOccupationMatrix::at(int x, int y)

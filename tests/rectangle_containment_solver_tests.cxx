@@ -11,9 +11,9 @@ using namespace packing;
 TEST(RectangleContainmentSolver, SiteExample)
 {
   const std::vector<Rectangle> input = {
-    Rectangle(8, 8),
-    Rectangle(4, 3),
-    Rectangle(4, 3)
+    Rectangle(8, 8, 1),
+    Rectangle(4, 3, 2),
+    Rectangle(4, 3, 3)
   };
 
   std::vector<RectanglePosition> expectedResult = {
@@ -39,9 +39,9 @@ TEST(RectangleContainmentSolver, SiteExample)
 TEST(RectangleContainmentSolver, SiteExampleBoundingBoxTooSmall)
 {
   const std::vector<Rectangle> input = {
-    Rectangle(8, 8),
-    Rectangle(4, 3),
-    Rectangle(4, 3)
+    Rectangle(8, 8, 1),
+    Rectangle(4, 3, 2),
+    Rectangle(4, 3, 3)
   };
 
   auto result = RectangleContainmentSolver(input, BoundingBox(10, 8)).compute();
@@ -53,7 +53,7 @@ TEST(RectangleContainmentSolver, Square10)
 {
   std::vector<Rectangle> input;
   for(int i = 1; i <= 10; i++) {
-    input.push_back(Rectangle(i, i));
+    input.push_back(Rectangle(i, i, i));
   }
 
   // Bouding box one size too small
@@ -70,7 +70,7 @@ TEST(RectangleContainmentSolver, Rectangle10_tooSmall)
 {
   std::vector<Rectangle> input;
   for(int i = 0; i < 10; i++) {
-    input.push_back(Rectangle(i + 1, i));
+    input.push_back(Rectangle(i + 1, i, i));
   }
 
   // Bouding box one size too small
@@ -83,7 +83,7 @@ TEST(RectangleContainmentSolver, Rectangle10)
 {
   std::vector<Rectangle> input;
   for(int i = 0; i < 10; i++) {
-    input.push_back(Rectangle(i + 1, i));
+    input.push_back(Rectangle(i + 1, i, i));
   }
 
   auto result = RectangleContainmentSolver(input, BoundingBox(26, 17)).compute();

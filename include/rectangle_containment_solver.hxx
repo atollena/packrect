@@ -2,6 +2,8 @@
 #define RECTANGLE_CONTAINMNET_SOLVER_HXX
 
 #include <vector>
+#include <list>
+#include <stack>
 
 #include "bounding_box.hxx"
 #include "rectangle_position.hxx"
@@ -36,15 +38,27 @@ namespace packing {
   private:
 
     /**
+     * Creates a list of possible position for the first rectangle
+     * (exploits the problem symmetry, so positions are only in the
+     * left bottom 1/4 of the bounding box, as positioning the first
+     * rectangle in one of the 3 other quarters would lead to
+     * symmetrical solutions).
      *
+     * @return List of postitions for the first rectangle
      */
     std::vector<RectanglePosition> firstRectangleCandidatePosition();
 
+    bool backtrack(std::vector<Rectangle>::const_iterator first,
+
+                   std::vector<Rectangle>::const_iterator last);
+
+    std::deque<RectanglePosition>
+    candidatePosition(const Rectangle & rectangle) const;
+    bool isValid(const RectanglePosition & position,
+                 const Rectangle & rectangle) const;
 
     const std::vector<Rectangle>& input;
-    const BoundingBox boundingBox;
-
-    BoxOccupationMatrix occupationMatrix;
+    BoundingBox boundingBox;
   };
 }
 

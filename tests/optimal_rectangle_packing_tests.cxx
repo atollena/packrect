@@ -8,9 +8,9 @@ using namespace packing;
 TEST(OptimalRectanglePacking, SiteExample)
 {
   const std::vector<Rectangle> input = {
-    Rectangle(8, 8),
-    Rectangle(4, 3),
-    Rectangle(4, 3)
+    Rectangle(8, 8, 1),
+    Rectangle(4, 3, 2),
+    Rectangle(4, 3, 3)
   };
 
   EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 88);
@@ -20,7 +20,7 @@ TEST(OptimalRectanglePacking, Square10)
 {
   std::vector<Rectangle> input;
   for(int i = 1; i <= 10; i++) {
-    input.push_back(Rectangle(i, i));
+    input.push_back(Rectangle(i, i, i));
   }
 
   EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 15*27);
@@ -30,7 +30,7 @@ TEST(OptimalRectanglePacking, Rectangle10)
 {
   std::vector<Rectangle> input;
   for(int i = 0; i < 10; i++) {
-    input.push_back(Rectangle(i + 1, i));
+    input.push_back(Rectangle(i + 1, i, i));
   }
 
   EXPECT_EQ(OptimalRectanglePacking(input).compute().first.area(), 17*26);

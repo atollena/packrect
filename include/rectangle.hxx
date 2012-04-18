@@ -4,13 +4,15 @@
 #include <functional>
 
 namespace packing {
+  typedef int RectangleId;
+
   /**
    * Class for representing a rectangle. To make certain operations
    * more efficient, we impose width >= height.
    */
   class Rectangle {
   public:
-    Rectangle (int width, int height);
+    Rectangle (int width, int height, RectangleId id);
     Rectangle(const Rectangle & other);
     Rectangle& operator= (const Rectangle & other);
     bool operator== (const Rectangle & other) const;
@@ -19,6 +21,8 @@ namespace packing {
     
     int getH() const;
     int getW() const;
+    RectangleId getId() const;
+    bool isSquare () const;
 
     /**
      * Compare rectangles based on the size of their width. Used to
@@ -30,6 +34,7 @@ namespace packing {
       bool operator()(const Rectangle & first, const Rectangle & second) const;
     };
   private:
+    RectangleId id;
     int width;
     int height;
   };

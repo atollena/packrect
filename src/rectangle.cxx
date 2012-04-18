@@ -1,10 +1,10 @@
-#include <assert.h>
+#include <cassert>
 
 #include "rectangle.hxx"
 
 namespace packing {
-  Rectangle::Rectangle(int width, int height)
-    : width(width), height(height)
+  Rectangle::Rectangle(int width, int height, RectangleId id)
+    : id(id), width(width), height(height)
   {
     // Check that we meet the class requirements
     assert(width >= height);
@@ -37,6 +37,16 @@ namespace packing {
   int Rectangle::getW() const
   {
     return width;
+  }
+
+  RectangleId Rectangle::getId() const
+  {
+    return id;
+  }
+
+  bool Rectangle::isSquare() const
+  {
+    return width == height;
   }
 
   bool Rectangle::BiggerWidth::operator()(const Rectangle & first,

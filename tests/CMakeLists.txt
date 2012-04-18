@@ -6,7 +6,8 @@ add_executable (runUnitTests
   optimal_rectangle_packing_tests.cxx
   rectangle_containment_solver_tests.cxx
   rectangle_tests.cxx
-  box_occupation_matrix_tests.cxx)
+  box_occupation_matrix_tests.cxx
+  bounding_box_tests.cxx)
 target_link_libraries(runUnitTests packer gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
 add_test (
   NAME runUnitTests
