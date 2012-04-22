@@ -52,7 +52,7 @@ TEST_F(BoundingBoxTests, candidatePositionsOnlyHorizontal)
   std::deque<RectanglePosition> positions =
     emptyBox.candidatePosition(rectangle);
   
-  EXPECT_EQ((size_t) 1, positions.size());
+  ASSERT_EQ((size_t) 1, positions.size());
 
   RectanglePosition position = positions.back();
   EXPECT_EQ(Point(0, 0), position.getLeftBottom());

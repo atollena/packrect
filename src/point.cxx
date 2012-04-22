@@ -10,6 +10,10 @@ namespace packing {
     return x == other.x && y == other.y;
   }
 
+  Point Point::operator+(const Point& other) const {
+    return Point(getX() + other.getX(), getY() + other.getY());
+  }
+
   int Point::getX() const { return x; }
   int Point::getY() const { return y; }
 }

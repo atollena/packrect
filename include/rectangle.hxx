@@ -1,9 +1,15 @@
 #ifndef RECTANGLE_HXX
 #define RECTANGLE_HXX
 
+#include <vector>
 #include <functional>
 
+#include "point.hxx"
+
 namespace packing {
+  class Point;
+  class RectanglePosition;
+
   typedef int RectangleId;
 
   /**
@@ -13,12 +19,8 @@ namespace packing {
   class Rectangle {
   public:
     Rectangle (int width, int height, RectangleId id);
-    Rectangle(const Rectangle & other);
-    Rectangle& operator= (const Rectangle & other);
     bool operator== (const Rectangle & other) const;
 
-    ~Rectangle();
-    
     int getH() const;
     int getW() const;
     RectangleId getId() const;
@@ -30,6 +32,14 @@ namespace packing {
      * (increasing longest width)
      */
     struct BiggerWidth : public std::binary_function<Rectangle, Rectangle, bool>
+    {
+      bool operator()(const Rectangle & first, const Rectangle & second) const;
+    };
+
+    /**
+     * Compare rectangles based on the size of their height
+     */
+    struct BiggerHeight : public std::binary_function<Rectangle, Rectangle, bool>
     {
       bool operator()(const Rectangle & first, const Rectangle & second) const;
     };

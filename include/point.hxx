@@ -6,6 +6,7 @@ namespace packing {
   public:
     Point(int x, int y);
     bool operator==(const Point& other) const;
+    Point operator+(const Point& other) const;
     int getX() const;
     int getY() const;
   private:

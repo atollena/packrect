@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "rectangle.hxx"
+#include "rectangle_position.hxx"
 
 using namespace packing;
 
@@ -37,3 +38,5 @@ TEST(Rectangle, BiggerWidth)
   EXPECT_FALSE(Rectangle::BiggerWidth()(rec3, rec2));
   EXPECT_FALSE(Rectangle::BiggerWidth()(rec2, rec1));
 }
+
+

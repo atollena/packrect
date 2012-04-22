@@ -1,4 +1,5 @@
 #include <deque>
+#include <list>
 
 #include "rectangle_containment_solver.hxx"
 #include "rectangle_position.hxx"
@@ -11,17 +12,17 @@ namespace packing {
     :input(input), boundingBox(boundingBox)
   {}
 
-  std::vector<RectanglePosition> RectangleContainmentSolver::compute()
+  std::list<RectanglePosition> RectangleContainmentSolver::compute()
   {
     if (input.empty())
-      return std::vector<RectanglePosition>();
+      return std::list<RectanglePosition>();
     
     for(RectanglePosition iter:
           boundingBox.firstRectangleCandidatePosition(input.front())) {
       boundingBox.set(input.front(), iter);
-      if(backtrack(++input.begin(), input.end()))
+      if(backtrack(input.begin() + 1, input.end()))
         break;
-      boundingBox.unset(input.front(), iter);
+      boundingBox.unset(input.front());
     }
 
     return boundingBox.getSolution();
@@ -39,9 +40,9 @@ namespace packing {
     
     for(RectanglePosition position : candidatePositions) {
       boundingBox.set(*first, position);
-      if(backtrack(++first, last))
+      if(backtrack(first + 1, last))
         return true;
-      boundingBox.unset(*first, position);
+      boundingBox.unset(*first);
     }
     return false;
   }

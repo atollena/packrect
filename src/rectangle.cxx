@@ -1,6 +1,7 @@
 #include <cassert>
 
 #include "rectangle.hxx"
+#include "rectangle_position.hxx"
 
 namespace packing {
   Rectangle::Rectangle(int width, int height, RectangleId id)
@@ -8,20 +9,6 @@ namespace packing {
   {
     // Check that we meet the class requirements
     assert(width >= height);
-  }
-
-  Rectangle::Rectangle(const Rectangle & other)
-    : width(other.width), height(other.height)
-  {}
-
-  Rectangle::~Rectangle () {}
-
-  Rectangle& Rectangle::operator= (const Rectangle & other)
-  {
-    // Handles self assignment gratefully
-    height = other.height;
-    width = other.width;
-    return *this;
   }
 
   bool Rectangle::operator== (const Rectangle & other) const
@@ -52,6 +39,12 @@ namespace packing {
   bool Rectangle::BiggerWidth::operator()(const Rectangle & first,
                                           const Rectangle & second) const
   {
-    return first.width > second.width;
+    return first.getW() > second.getW();
+  }
+
+  bool Rectangle::BiggerHeight::operator()(const Rectangle & first,
+                                           const Rectangle & second) const
+  {
+    return first.getH() > second.getH();
   }
 }

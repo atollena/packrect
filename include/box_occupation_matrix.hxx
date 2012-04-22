@@ -43,7 +43,9 @@ namespace packing {
                const RectanglePosition & position);
 
     /**
-     * Print out the content of the matrix in a user-friendly fashion
+     * Print out the content of the bounding box in a user-friendly
+     * fashion (for debugging, use solutionToString for pretty
+     * printing)
      */
     friend std::ostream& operator<<(std::ostream& out, const BoxOccupationMatrix& box);
 

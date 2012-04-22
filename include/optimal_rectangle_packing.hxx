@@ -17,6 +17,14 @@ namespace packing {
     Packing compute () const;
   private:
     std::vector<Rectangle> input;
+
+    int minimumBoundingBoxWidth() const;
+    int maximumBoundingBoxWidth() const;
+    int minimumBoundingBoxHeight() const;
+    int maximumBoundingBoxHeight() const;
+    int minimumBoundingBoxArea() const;
+
+    std::deque<BoundingBox> candidateBoundingBoxes() const;
   };
 }
 
