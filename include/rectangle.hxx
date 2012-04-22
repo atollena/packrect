@@ -5,10 +5,10 @@
 #include <functional>
 
 #include "point.hxx"
+#include "rectangle_position.hxx"
 
 namespace packing {
   class Point;
-  class RectanglePosition;
 
   typedef int RectangleId;
 
@@ -25,6 +25,7 @@ namespace packing {
     int getW() const;
     RectangleId getId() const;
     bool isSquare () const;
+    int getArea() const;
 
     /**
      * Compare rectangles based on the size of their width. Used to

@@ -51,8 +51,8 @@ namespace packing {
 
   private:
     std::vector<RectangleId> matrix;
-    const int width;
-    const int height;
+    int width;
+    int height;
 
     /**
      * Sets occupation at position with width and height to the given

@@ -1,6 +1,8 @@
 #ifndef PACKING_MIN_AREA_HPP
 #define PACKING_MIN_AREA_HPP
 
+#include <list>
+#include <deque>
 #include <vector>
 
 namespace packing {
@@ -11,20 +13,15 @@ namespace packing {
   class OptimalRectanglePacking {
   public:
     typedef std::pair<BoundingBox,
-                      std::vector<RectanglePosition>> Packing;
+                      std::list<RectanglePosition>> Packing;
 
     OptimalRectanglePacking(const std::vector<Rectangle> input);
     Packing compute () const;
   private:
     std::vector<Rectangle> input;
 
-    int minimumBoundingBoxWidth() const;
-    int maximumBoundingBoxWidth() const;
-    int minimumBoundingBoxHeight() const;
-    int maximumBoundingBoxHeight() const;
-    int minimumBoundingBoxArea() const;
-
-    std::deque<BoundingBox> candidateBoundingBoxes() const;
+    std::deque<BoundingBox> candidateBoxes() const;
+    BoundingBox greedyRectanglePacker() const;
   };
 }
 

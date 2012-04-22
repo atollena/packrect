@@ -21,7 +21,7 @@ namespace packing {
     /**
      * Computes the area of the bounding box
      */
-    int area() const;
+    int getArea() const;
 
     /**
      * Set the rectangle to the given position
@@ -55,8 +55,8 @@ namespace packing {
     std::list<RectanglePosition> getSolution() const;
 
   private:
-    const int width;
-    const int height;
+    int width;
+    int height;
     BoxOccupationMatrix occupationMatrix;
     std::list<RectanglePosition> currentSolution;
 

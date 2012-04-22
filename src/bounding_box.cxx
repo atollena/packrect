@@ -8,7 +8,7 @@ namespace packing {
   BoundingBox::BoundingBox(int width, int height)
     :width(width), height(height), occupationMatrix(*this) {}
 
-  int BoundingBox::area() const
+  int BoundingBox::getArea() const
   {
     return width*height;
   }

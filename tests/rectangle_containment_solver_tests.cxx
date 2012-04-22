@@ -85,9 +85,10 @@ TEST(RectangleContainmentSolver, Square10)
 {
   std::vector<Rectangle> input = createDecrementingSquares(10);
 
-  auto result = RectangleContainmentSolver(input, BoundingBox(27, 15)).compute();
+  auto box = BoundingBox(27, 15);
+  auto result = RectangleContainmentSolver(input, box).compute();
 
-  EXPECT_FALSE(result.empty());
+  EXPECT_FALSE(result.empty()) << solutionToString(box, input, result);
 }
 
 TEST(RectangleContainmentSolver, Rectangle10_tooSmall)

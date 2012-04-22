@@ -13,9 +13,15 @@ namespace packing {
   std::vector<Rectangle> createDecrementingSquares(int n);
 
   /**
-   * Creates a vector of rectangle having width == (height + 1), with
+   * Creates a vector of rectangles having width == (height + 1), with
    * size from n to 1
    */
   std::vector<Rectangle> createDecrementingRectangles(int n);
+
+  /**
+   * Creates one hunder rectangles having of size 2*1, with
+   * size from n to 1
+   */
+  std::vector<Rectangle> createSameRectangles(int n);
 }
 #endif

@@ -36,6 +36,11 @@ namespace packing {
     return width == height;
   }
 
+  int Rectangle::getArea() const
+  {
+    return width * height;
+  }
+
   bool Rectangle::BiggerWidth::operator()(const Rectangle & first,
                                           const Rectangle & second) const
   {
