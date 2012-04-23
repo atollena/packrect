@@ -2,7 +2,6 @@
 #include "rectangle_containment_solver.hxx"
 #include "rectangle.hxx"
 
-#include <iostream>
 #include <algorithm>
 
 namespace packing {
@@ -23,9 +22,6 @@ namespace packing {
 
     for(RectangleSize box: boxSizes) {
       if(box.computeArea() < result.first.computeArea()) {
-
-        std::cerr << "Testing bounding box (" << box.width << ", "
-                  << box.height << ")" << " area: " << box.computeArea() << std::endl;
 
         std::list<RectanglePosition> solution =
           RectangleContainmentSolver(input,

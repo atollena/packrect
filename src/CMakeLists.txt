@@ -11,3 +11,4 @@ add_library (packer STATIC
   rectangle_size.cxx
   solution_to_string.cxx)
 add_executable (packrect packing_main.cxx)
+target_link_libraries(packrect packer)
