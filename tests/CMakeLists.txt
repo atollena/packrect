@@ -6,6 +6,7 @@ add_executable (runUnitTests
   tests_helpers.cxx
   bounding_box_tests.cxx
   box_occupation_matrix_tests.cxx
+  input_parser_tests.cxx
   optimal_rectangle_packing_tests.cxx
   rectangle_containment_solver_tests.cxx
   rectangle_position_tests.cxx

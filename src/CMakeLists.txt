@@ -2,6 +2,7 @@
 add_library (packer STATIC
   bounding_box.cxx
   box_occupation_matrix.cxx
+  input_parser.cxx
   optimal_rectangle_packing.cxx
   point.cxx
   rectangle.cxx

@@ -1,6 +1,4 @@
-int main (int argc, char** argv)
+int main ()
 {
-  (void) argc;
-  (void) argv;
-  // TODO: implement
+  
 }
