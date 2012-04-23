@@ -24,7 +24,7 @@ namespace packing {
   class RectangleContainmentSolver {
   public:
     RectangleContainmentSolver(const std::vector<Rectangle>& input,
-                               const BoundingBox& boundingBox);
+                               const RectangleSize & size);
 
     /**
      * Solves the containment problem for a given bounding box and a

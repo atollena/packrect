@@ -7,5 +7,6 @@ add_library (packer STATIC
   rectangle.cxx
   rectangle_containment_solver.cxx
   rectangle_position.cxx
+  rectangle_size.cxx
   solution_to_string.cxx)
 add_executable (packrect packing_main.cxx)

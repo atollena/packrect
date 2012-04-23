@@ -5,6 +5,8 @@
 #include <deque>
 
 #include "box_occupation_matrix.hxx"
+#include "rectangle_size.hxx"
+
 namespace packing {
   class Rectangle;
   class RectanglePosition;
@@ -14,14 +16,12 @@ namespace packing {
    */
   class BoundingBox {
   public:
-    BoundingBox(int width, int height);
-    int getHeight() const;
-    int getWidth() const;
-
+    BoundingBox(const RectangleSize & size);
+    
     /**
      * Computes the area of the bounding box
      */
-    int getArea() const;
+    int computeArea() const;
 
     /**
      * Set the rectangle to the given position
@@ -55,8 +55,8 @@ namespace packing {
     std::list<RectanglePosition> getSolution() const;
 
   private:
-    int width;
-    int height;
+    const RectangleSize size;
+    
     BoxOccupationMatrix occupationMatrix;
     std::list<RectanglePosition> currentSolution;
 

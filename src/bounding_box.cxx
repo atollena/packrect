@@ -5,20 +5,12 @@
 #include "rectangle_position.hxx"
 
 namespace packing {
-  BoundingBox::BoundingBox(int width, int height)
-    :width(width), height(height), occupationMatrix(*this) {}
+  BoundingBox::BoundingBox(const RectangleSize & size)
+    :size(size), occupationMatrix(size) {}
 
-  int BoundingBox::getArea() const
+  int BoundingBox::computeArea() const
   {
-    return width*height;
-  }
-
-  int BoundingBox::getHeight() const {
-    return height;
-  }
-
-  int BoundingBox::getWidth() const {
-    return width;
+    return size.computeArea();
   }
 
   void BoundingBox::set(const Rectangle & rectangle,
@@ -40,8 +32,8 @@ namespace packing {
   {    
     // To exploit the symmetry of the problem: we place the first
     // rectangle in the bottom left part of the bounding box.
-    int xMax = (getWidth() - 1) / 2 + 1;
-    int yMax = (getHeight() - 1) / 2 + 1;
+    int xMax = (size.width - 1) / 2 + 1;
+    int yMax = (size.height - 1) / 2 + 1;
 
     std::vector<RectanglePosition> result;
     result.reserve(xMax * yMax);
@@ -68,8 +60,8 @@ namespace packing {
   std::deque<RectanglePosition>
   BoundingBox::candidatePosition(const Rectangle & rectangle) const {
     std::deque<RectanglePosition> result;
-    for(int i = 0; i < getHeight(); i++) {
-      for(int j = 0; j < getWidth(); j++) {
+    for(int i = 0; i < size.height; i++) {
+      for(int j = 0; j < size.width; j++) {
         // Iterate on the width first as it maximizes cache locality
         // due to the way the bouding box matrix is stored
         checkAndInsertPosition(j, i, rectangle, result);
@@ -98,8 +90,8 @@ namespace packing {
     }
     
     // Checks if bounds of rectangle are in the box
-    return !(position.getLeftBottomX() + rectangleWidth > width ||
-             position.getLeftBottomY() + rectangleHeight > height);
+    return !(position.getLeftBottomX() + rectangleWidth > size.width ||
+             position.getLeftBottomY() + rectangleHeight > size.height);
   }
 
   bool BoundingBox::hasNoOverlap(const Rectangle & rectangle,

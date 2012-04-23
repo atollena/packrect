@@ -21,7 +21,7 @@ protected:
   BoxOccupationMatrixTests()
     : rectangle_exemple(5, 3, 0),
       position_exemple(Point(9, 4), false),
-      testBox(BoundingBox(WIDTH, HEIGHT)),
+      testBox(RectangleSize(WIDTH, HEIGHT)),
       rectangleExempleId(0)
   {}
 

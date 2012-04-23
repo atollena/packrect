@@ -21,12 +21,12 @@ namespace packing {
 
   static std::string concatenateLines(const std::vector<std::string> & lines);
 
-  std::string solutionToString (const BoundingBox & box,
+  std::string solutionToString (const RectangleSize & box,
                                 const std::vector<Rectangle> & rectangles,
                                 const std::list<RectanglePosition> & positions)
   {
-    std::vector<std::string> lines(box.getHeight(),
-                                   std::string(box.getWidth(), ' '));
+    std::vector<std::string> lines(box.height,
+                                   std::string(box.width, ' '));
 
     std::vector<std::pair<Rectangle, RectanglePosition>> solution = zip (rectangles,
                                                                          positions);

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "rectangle.hxx"
+#include "rectangle_size.hxx"
 
 namespace packing {
 
@@ -21,7 +22,7 @@ namespace packing {
     /**
      * Creates a new matrix of size width * height
      */
-    BoxOccupationMatrix(const BoundingBox & boundingBox);
+    BoxOccupationMatrix(const RectangleSize & boxSize);
 
     /**
      * Checks if position x, y is occupied
@@ -50,9 +51,9 @@ namespace packing {
     friend std::ostream& operator<<(std::ostream& out, const BoxOccupationMatrix& box);
 
   private:
-    std::vector<RectangleId> matrix;
     int width;
     int height;
+    std::vector<RectangleId> matrix;
 
     /**
      * Sets occupation at position with width and height to the given

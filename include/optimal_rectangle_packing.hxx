@@ -5,14 +5,15 @@
 #include <deque>
 #include <vector>
 
+#include "rectangle_size.hxx"
+
 namespace packing {
   class Rectangle;
   class RectanglePosition;
-  class BoundingBox;
   
   class OptimalRectanglePacking {
   public:
-    typedef std::pair<BoundingBox,
+    typedef std::pair<RectangleSize,
                       std::list<RectanglePosition>> Packing;
 
     OptimalRectanglePacking(const std::vector<Rectangle> input);
@@ -20,8 +21,8 @@ namespace packing {
   private:
     std::vector<Rectangle> input;
 
-    std::deque<BoundingBox> candidateBoxes() const;
-    BoundingBox greedyRectanglePacker() const;
+    std::deque<RectangleSize> candidateBoxSizes() const;
+    RectangleSize greedyRectanglePacker() const;
   };
 }
 

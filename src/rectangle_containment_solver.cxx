@@ -8,8 +8,8 @@
 namespace packing {
 
   RectangleContainmentSolver::RectangleContainmentSolver(const std::vector<Rectangle>& input,
-                                                         const BoundingBox& boundingBox)
-    :input(input), boundingBox(boundingBox)
+                                                         const RectangleSize & size)
+    :input(input), boundingBox(size)
   {}
 
   std::list<RectanglePosition> RectangleContainmentSolver::compute()

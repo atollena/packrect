@@ -8,46 +8,46 @@
 
 using namespace packing;
 
-TEST(OptimalRectanglePacking, SiteExample)
+class OptimalRectanglePackingTests : public testing::Test {
+protected:
+  void check(const std::vector<Rectangle> & input,
+             int expectedArea)
+  {
+    auto solution = OptimalRectanglePacking(input).compute();
+
+    EXPECT_EQ(expectedArea, solution.first.computeArea())
+      << solutionToString(solution.first,
+                          input,
+                          solution.second);
+  }
+};
+
+TEST_F(OptimalRectanglePackingTests, SiteExample)
 {
   auto input = {
     Rectangle(8, 8, 1),
     Rectangle(4, 3, 2),
     Rectangle(4, 3, 3)
   };
-  auto solution = OptimalRectanglePacking(input).compute();
-
-  EXPECT_EQ(88, solution.first.getArea())
-    << solutionToString(solution.first,
-                        input,
-                        solution.second);
+  check(input, 88);
 }
 
-TEST(OptimalRectanglePacking, Constant100)
+TEST_F(OptimalRectanglePackingTests, DISABLED_Square5)
 {
-  auto input = createSameRectangles(100);
-  auto solution = OptimalRectanglePacking(input).compute();
-
-  EXPECT_EQ(200, solution.first.getArea())
-    << solutionToString(solution.first,
-                        input,
-                        solution.second);;
+  check(createDecrementingSquares(10), 5*12);
 }
 
-TEST(OptimalRectanglePacking, DISABLED_Square10)
+TEST_F(OptimalRectanglePackingTests, DISABLED_Constant100)
 {
-  auto input = createDecrementingSquares(10);
-  auto solution = OptimalRectanglePacking(input).compute();
-
-  EXPECT_EQ(15*27, solution.first.getArea())
-    << solutionToString(solution.first,
-                        input,
-                        solution.second);;
+  check(createSameRectangles(100), 200);
 }
 
-TEST(OptimalRectanglePacking, DISABLED_Rectangle10)
+TEST_F(OptimalRectanglePackingTests, DISABLED_Square10)
 {
-  std::vector<Rectangle> input = createDecrementingRectangles(10);
+  check(createDecrementingSquares(10), 15*27);
+}
 
-  EXPECT_EQ(OptimalRectanglePacking(input).compute().first.getArea(), 17*26);
+TEST_F(OptimalRectanglePackingTests, DISABLED_Rectangle10)
+{
+  check(createDecrementingRectangles(10), 17*26);
 }

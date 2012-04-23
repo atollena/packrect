@@ -14,7 +14,7 @@ protected:
   BoundingBox halfFullBox;
 
   BoundingBoxTests()
-    : emptyBox(10, 5), halfFullBox(10, 5)
+    : emptyBox(RectangleSize(10, 5)), halfFullBox(RectangleSize(10, 5))
   {
     halfFullBox.set(Rectangle(2, 2, 0),
                     RectanglePosition(Point(3, 0), false));

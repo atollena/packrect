@@ -6,14 +6,14 @@
 #include <list>
 
 #include "point.hxx"
+#include "rectangle_size.hxx"
 
 namespace packing {
 
-  class BoundingBox;
   class Rectangle;
   class RectanglePosition;
 
-  std::string solutionToString (const BoundingBox & box,
+  std::string solutionToString (const RectangleSize & box,
                                 const std::vector<Rectangle> & rectangles,
                                 const std::list<RectanglePosition> & position);
 }

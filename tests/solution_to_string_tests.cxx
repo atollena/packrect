@@ -29,7 +29,7 @@ TEST(SolutionToString, Trivial1)
            << "|      |" << std::endl
            << "+------+" << std::endl;
 
-  std::string result = solutionToString(BoundingBox(8, 8),
+  std::string result = solutionToString(RectangleSize(8, 8),
                                         rectangles,
                                         positions);
 
@@ -53,7 +53,7 @@ TEST(SolutionToString, TrivialVertical)
            << "| |" << std::endl
            << "+-+" << std::endl;
 
-  std::string result = solutionToString(BoundingBox(3, 4),
+  std::string result = solutionToString(RectangleSize(3, 4),
                                         rectangles,
                                         positions);
 
@@ -76,7 +76,7 @@ TEST(SolutionToString, TrivialHorizontal)
            << "|  |" << std::endl
            << "+--+" << std::endl;
 
-  std::string result = solutionToString(BoundingBox(4, 3),
+  std::string result = solutionToString(RectangleSize(4, 3),
                                         rectangles,
                                         positions);
 
@@ -109,7 +109,7 @@ TEST(SolutionToString, SiteExample)
            << "+------++-+" << std::endl;
 
 
-  std::string result = solutionToString(BoundingBox(11, 8),
+  std::string result = solutionToString(RectangleSize(11, 8),
                                         rectangles,
                                         positions);
 

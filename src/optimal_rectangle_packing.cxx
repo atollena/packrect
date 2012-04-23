@@ -15,20 +15,22 @@ namespace packing {
 
   OptimalRectanglePacking::Packing OptimalRectanglePacking::compute() const
   {
-    std::deque<BoundingBox> boxes = candidateBoxes();
+    std::deque<RectangleSize> boxSizes = candidateBoxSizes();
 
-    Packing result = std::make_pair(*(boxes.begin()),
-                                    RectangleContainmentSolver(input, *(boxes.begin())).compute());
-    boxes.pop_front();
+    Packing result = std::make_pair(boxSizes.front(),
+                                    RectangleContainmentSolver(input, boxSizes.front()).compute());
+    boxSizes.pop_front();
 
-    for(BoundingBox box: boxes) {
-      if(box.getArea() < result.first.getArea()) {
+    for(RectangleSize box: boxSizes) {
+      if(box.computeArea() < result.first.computeArea()) {
 
-        std::cerr << "Testing bounding box (" << box.getWidth() << ", "
-                  << box.getHeight() << ")" << " area: " << box.getArea() << std::endl;
+        std::cerr << "Testing bounding box (" << box.width << ", "
+                  << box.height << ")" << " area: " << box.computeArea() << std::endl;
 
-        std::list<RectanglePosition> solution = RectangleContainmentSolver(input,
-                                                                           box).compute();
+        std::list<RectanglePosition> solution =
+          RectangleContainmentSolver(input,
+                                     box).compute();
+        
         if(!solution.empty()) {
           result = std::make_pair(box,
                                   solution);
@@ -39,10 +41,10 @@ namespace packing {
     return result;
   }
 
-  std::deque<BoundingBox> OptimalRectanglePacking::candidateBoxes() const
+  std::deque<RectangleSize> OptimalRectanglePacking::candidateBoxSizes() const
   {
     // Computes a box containing all rectangles and having this height
-    BoundingBox startBox = greedyRectanglePacker();
+    RectangleSize startBox = greedyRectanglePacker();
 
     int minArea = std::accumulate(input.begin(),
                                   input.end(), 0,
@@ -61,15 +63,15 @@ namespace packing {
      * We also filter out bounding boxes that have a bigger area than
      * the startBox, they won't give us a better solution.
      */
-    std::deque<BoundingBox> result;
-    for(int height = startBox.getHeight();
-        height <= startBox.getWidth();
+    std::deque<RectangleSize> result;
+    for(int height = startBox.height;
+        height <= startBox.width;
         ++height) {
-      for(int width = startBox.getWidth();
+      for(int width = startBox.width;
           height * width >= minArea && height <= width;
           --width) {
-        if(height * width < startBox.getArea() ) {
-          result.push_back(BoundingBox(width, height));
+        if(height * width < startBox.computeArea() ) {
+          result.push_back(RectangleSize(width, height));
         }
       }
     }
@@ -77,8 +79,7 @@ namespace packing {
     return result;
   }
 
-  BoundingBox
-  OptimalRectanglePacking::greedyRectanglePacker() const
+  RectangleSize OptimalRectanglePacking::greedyRectanglePacker() const
   {
     // Get the smallest possible height for the bounding box, which is
     // the height of the highest rectangle
@@ -87,11 +88,11 @@ namespace packing {
 
     // Returns the bounding box containing all rectangles put flat
     // next to another.
-    return BoundingBox(std::accumulate(input.begin(),
-                                       input.end(), 0,
-                                       [] (int current, Rectangle rectangle) {
-                                         return current + rectangle.getW();
-                                       }), smallestHeight);
+    return RectangleSize(std::accumulate(input.begin(),
+                                         input.end(), 0,
+                                         [] (int current, Rectangle rectangle) {
+                                           return current + rectangle.getW();
+                                         }), smallestHeight);
 
     // A possible improvement could be to place rectangles higher as
     // soon as a place is available.
