@@ -1,5 +1,6 @@
 #include <deque>
 #include <list>
+#include <cassert>
 
 #include "rectangle_containment_solver.hxx"
 #include "rectangle_position.hxx"
@@ -10,13 +11,14 @@ namespace packing {
   RectangleContainmentSolver::RectangleContainmentSolver(const std::vector<Rectangle>& input,
                                                          const RectangleSize & size)
     :input(input), boundingBox(size)
-  {}
+  {
+    assert(!input.empty());
+    assert(size.width != 0 &&
+           size.height != 0);
+  }
 
   std::list<RectanglePosition> RectangleContainmentSolver::compute()
   {
-    if (input.empty())
-      return std::list<RectanglePosition>();
-    
     for(RectanglePosition iter:
           boundingBox.firstRectangleCandidatePosition(input.front())) {
       boundingBox.set(input.front(), iter);

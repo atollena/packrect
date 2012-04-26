@@ -32,12 +32,17 @@ TEST_F(OptimalRectanglePackingTests, SiteExample)
   check(input, 88);
 }
 
-TEST_F(OptimalRectanglePackingTests, DISABLED_Square5)
+TEST_F(OptimalRectanglePackingTests, Square5)
 {
-  check(createDecrementingSquares(10), 5*12);
+  check(createDecrementingSquares(5), 5*12);
 }
 
-TEST_F(OptimalRectanglePackingTests, DISABLED_Constant100)
+TEST_F(OptimalRectanglePackingTests, Square9)
+{
+  check(createDecrementingSquares(9), 15*20);
+}
+
+TEST_F(OptimalRectanglePackingTests, Constant100)
 {
   check(createSameRectangles(100), 200);
 }

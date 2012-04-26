@@ -1,10 +1,19 @@
 #include "rectangle_size.hxx"
 
-RectangleSize::RectangleSize(int width, int height)
-  :width(width), height(height)
-{}
+namespace packing {
 
-int RectangleSize::computeArea() const
-{
-  return width * height;
+  RectangleSize::RectangleSize(int width, int height)
+    :width(width), height(height)
+  {}
+
+  int RectangleSize::computeArea() const
+  {
+    return width * height;
+  }
+
+  bool RectangleSize::SmallerArea::operator()(const RectangleSize & first,
+                                              const RectangleSize & second) const
+  {
+    return first.computeArea() < second.computeArea();
+  }
 }

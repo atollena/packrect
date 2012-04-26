@@ -1,14 +1,20 @@
+#include <algorithm>
+#include <cassert>
+#ifndef NDEBUG
+#include <iostream>
+#endif
+
 #include "optimal_rectangle_packing.hxx"
 #include "rectangle_containment_solver.hxx"
 #include "rectangle.hxx"
-
-#include <algorithm>
 
 namespace packing {
 
   OptimalRectanglePacking::OptimalRectanglePacking(std::vector<Rectangle> input)
     : input(input)
   {
+    // Rectangles must be sorted in decreasing order of width for the
+    // containment solving algorithm to be applied
     std::sort(input.begin(), input.end(), Rectangle::BiggerWidth());
   }
 
@@ -16,25 +22,37 @@ namespace packing {
   {
     std::deque<RectangleSize> boxSizes = candidateBoxSizes();
 
-    Packing result = std::make_pair(boxSizes.front(),
-                                    RectangleContainmentSolver(input, boxSizes.front()).compute());
-    boxSizes.pop_front();
+    /*
+     * Sort bounding boxes in non-decreasing order of areas. By doing
+     * this, we make sure that the first box that has a solution for
+     * the rectangle containment problem is the smaller bounding
+     * box. If we wouldn't sort it, we could easily transform the
+     * algorithm in an anytime algorithm, as the front() of boxSizes
+     * was determined using a greedy algorithm and definetly is a
+     * valid packing.  The algorithm here finds the best solution
+     * faster, but can't give a solution "anytime".
+     */
+    std::sort(boxSizes.begin(), boxSizes.end(),
+              RectangleSize::SmallerArea());
 
-    for(RectangleSize box: boxSizes) {
-      if(box.computeArea() < result.first.computeArea()) {
+    std::deque<RectangleSize>::const_iterator box = boxSizes.begin();
 
-        std::list<RectanglePosition> solution =
-          RectangleContainmentSolver(input,
-                                     box).compute();
-        
-        if(!solution.empty()) {
-          result = std::make_pair(box,
-                                  solution);
-        }
-      }
+    std::list<RectanglePosition> solution =
+      RectangleContainmentSolver(input, *box).compute();
+
+    while (solution.empty()) {
+      ++box;
+      assert(box != boxSizes.end()); /* We have the greedy solution to
+                                        prevent that */
+#ifndef NDEBUG
+      std::cerr << "Testing box " << box->width << "*" << box->height << std::endl;
+#endif
+
+      solution = RectangleContainmentSolver(input, *box).compute();
     }
 
-    return result;
+    return std::make_pair(*box,
+                          solution);
   }
 
   std::deque<RectangleSize> OptimalRectanglePacking::candidateBoxSizes() const
@@ -60,6 +78,7 @@ namespace packing {
      * the startBox, they won't give us a better solution.
      */
     std::deque<RectangleSize> result;
+    result.push_back(startBox);
     for(int height = startBox.height;
         height <= startBox.width;
         ++height) {

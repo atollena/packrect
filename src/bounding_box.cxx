@@ -1,3 +1,4 @@
+#include <cassert>
 #include <algorithm>
 
 #include "bounding_box.hxx"
@@ -6,7 +7,10 @@
 
 namespace packing {
   BoundingBox::BoundingBox(const RectangleSize & size)
-    :size(size), occupationMatrix(size) {}
+    :size(size), occupationMatrix(size)
+  {
+    assert(size.width > 0 && size.height > 0);
+  }
 
   int BoundingBox::computeArea() const
   {
