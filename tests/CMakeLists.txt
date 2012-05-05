@@ -11,7 +11,8 @@ add_executable (runUnitTests
   rectangle_containment_solver_tests.cxx
   rectangle_position_tests.cxx
   rectangle_tests.cxx
-  solution_to_string_tests.cxx)
+  solution_to_string_tests.cxx
+  wasted_space_pruner_tests.cxx)
 target_link_libraries(runUnitTests packer gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
 add_test (
   NAME runUnitTests

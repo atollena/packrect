@@ -24,6 +24,14 @@ namespace packing {
     int computeArea() const;
 
     /**
+     * Checks if we should try this position according to our pruning
+     * strategy
+     */
+    bool isPruned(std::vector<Rectangle>::const_iterator first,
+                  std::vector<Rectangle>::const_iterator last,
+                  int totalRectanglesArea) const;
+
+    /**
      * Set the rectangle to the given position
      */
     void set(const Rectangle & rectangle,
@@ -49,8 +57,7 @@ namespace packing {
     candidatePosition(const Rectangle & rectangle) const;
 
     /**
-     * Returns the list of rectangle position, or an empty list if
-     * there is no solution.
+     * Returns the list of rectangle position currently in the box
      */
     std::list<RectanglePosition> getSolution() const;
 
@@ -89,8 +96,6 @@ namespace packing {
                                 const Rectangle & rectangle,
                                 std::deque<RectanglePosition> & result) const;
   };
-
-  
 }
 
 #endif // BOUNDING_BOX_HXX

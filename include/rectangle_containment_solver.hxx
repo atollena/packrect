@@ -6,6 +6,7 @@
 #include <stack>
 
 #include "bounding_box.hxx"
+#include "invariants.hxx"
 #include "rectangle_position.hxx"
 #include "box_occupation_matrix.hxx"
 
@@ -23,7 +24,7 @@ namespace packing {
    */
   class RectangleContainmentSolver {
   public:
-    RectangleContainmentSolver(const std::vector<Rectangle>& input,
+    RectangleContainmentSolver(const Invariants & input,
                                const RectangleSize & size);
 
     /**
@@ -58,7 +59,7 @@ namespace packing {
     bool isValid(const RectanglePosition & position,
                  const Rectangle & rectangle) const;
 
-    const std::vector<Rectangle>& input;
+    const Invariants invariants;
     BoundingBox boundingBox;
 
 #ifdef STATISTICS

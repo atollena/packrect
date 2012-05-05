@@ -102,3 +102,17 @@ TEST_F(BoxOccupationMatrixTests, SetVertical)
   EXPECT_EQ(-1, testBox.query(Point(4, 2))) << testBox;
   EXPECT_EQ(rectangle_id, testBox.query(Point(2, 4))) << testBox;
 }
+
+TEST_F(BoxOccupationMatrixTests, minContiguousFreeCellsOccupied)
+{
+  EXPECT_EQ(0, testBox.minContiguousFreeCells(Point(10, 5)));
+}
+
+TEST_F(BoxOccupationMatrixTests, minContiguousFreeCells)
+{
+  testBox.set(Rectangle(9, 4, 1), RectanglePosition(Point(0, 0), false));
+  EXPECT_EQ(4, testBox.minContiguousFreeCells(Point(9, 3))) << testBox;
+  EXPECT_EQ(9, testBox.minContiguousFreeCells(Point(5, 5))) << testBox;
+  EXPECT_EQ(15, testBox.minContiguousFreeCells(Point(20, 10))) << testBox;
+}
+

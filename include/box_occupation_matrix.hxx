@@ -44,6 +44,16 @@ namespace packing {
                const RectanglePosition & position);
 
     /**
+     * This function is useful for our pruning algorithm.  It returns,
+     * for a free cell, the minimum of horizontal or vertical
+     * contiguous number of cells that are free on the right and left
+     * (or top and bottom) of this cell.
+     *
+     * Returns 0 if the cell is occupied. 
+     */
+    int minContiguousFreeCells(const Point & position) const;
+
+    /**
      * Print out the content of the bounding box in a user-friendly
      * fashion (for debugging, use solutionToString for pretty
      * printing)

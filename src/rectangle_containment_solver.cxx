@@ -3,26 +3,26 @@
 #include <cassert>
 
 #include "rectangle_containment_solver.hxx"
-#include "rectangle_position.hxx"
 #include "rectangle.hxx"
 
 namespace packing {
 
-  RectangleContainmentSolver::RectangleContainmentSolver(const std::vector<Rectangle>& input,
+  RectangleContainmentSolver::RectangleContainmentSolver(const Invariants & invariants,
                                                          const RectangleSize & size)
-    :input(input),
+    :invariants(invariants),
      boundingBox(size)
 #ifdef STATISTICS
     , backtrackNodes(0)
 #endif
   {
-    assert(!input.empty());
+    assert(!invariants.input.empty());
     assert(size.width != 0 &&
            size.height != 0);
   }
 
   std::list<RectanglePosition> RectangleContainmentSolver::compute()
   {
+    auto input = invariants.input;
     for(RectanglePosition iter:
           boundingBox.firstRectangleCandidatePosition(input.front())) {
       boundingBox.set(input.front(), iter);
@@ -50,7 +50,9 @@ namespace packing {
     
     for(RectanglePosition position : candidatePositions) {
       boundingBox.set(*first, position);
-      if(backtrack(first + 1, last))
+      if(! boundingBox.isPruned(first + 1, last,
+                                invariants.totalRectangleArea) &&
+         backtrack(first + 1, last))
         return true;
       boundingBox.unset(*first);
     }

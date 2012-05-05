@@ -4,6 +4,7 @@
 #include "bounding_box.hxx"
 #include "rectangle.hxx"
 #include "rectangle_position.hxx"
+#include "wasted_space_pruner.hxx"
 
 namespace packing {
   BoundingBox::BoundingBox(const RectangleSize & size)
@@ -68,10 +69,18 @@ namespace packing {
       for(int j = 0; j < size.width; j++) {
         // Iterate on the width first as it maximizes cache locality
         // due to the way the bouding box matrix is stored
-        checkAndInsertPosition(j, i, rectangle, result);
+       checkAndInsertPosition(j, i, rectangle, result);
       }
     }
     return result;
+  }
+
+  bool BoundingBox::isPruned(std::vector<Rectangle>::const_iterator first,
+                             std::vector<Rectangle>::const_iterator last,
+                             int totalRectanglesArea) const
+  {
+    return WastedSpacePruner()(size, occupationMatrix,
+                               first, last, totalRectanglesArea);
   }
 
   bool BoundingBox::isValid(const Rectangle & rectangle,

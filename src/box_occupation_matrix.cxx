@@ -80,6 +80,45 @@ namespace packing {
     return matrix[y*width + x];
   }
 
+  int BoxOccupationMatrix::minContiguousFreeCells(const Point & position) const
+  {
+    if(query(position) != -1)
+      return 0;
+    
+    int freeOnTheLeft = position.getX();
+    while(freeOnTheLeft >= 0 && query(Point(freeOnTheLeft, position.getY())) == -1) {
+      --freeOnTheLeft;
+    }
+    ++freeOnTheLeft;
+    
+    int freeOnTheRight = position.getX();
+    while(freeOnTheRight < width && query(Point(freeOnTheRight,
+                                                position.getY())) == -1) {
+      ++freeOnTheRight;
+    }
+    --freeOnTheRight;
+
+    int freeOnBottom = position.getY();
+    while(freeOnBottom >= 0 && query(Point(position.getX(),
+                                              freeOnBottom)) == -1) {
+      --freeOnBottom;
+    }
+    ++freeOnBottom;
+    
+    int freeOnTop = position.getY();
+    while(freeOnTop < height && query(Point(position.getX(),
+                                            freeOnTop)) == -1) {
+      ++freeOnTop;
+    }
+    --freeOnTop;
+
+    int horizontalContiguousFreeCells = freeOnTheRight - freeOnTheLeft + 1;
+    int verticalContiguousFreeCells = freeOnTop - freeOnBottom + 1;
+
+    return std::min(verticalContiguousFreeCells,
+                    horizontalContiguousFreeCells);
+  }
+
   static int maxDigit(std::vector<int> vec)
   {
     int maxDigits = *std::max_element(vec.begin(), vec.end());
@@ -102,7 +141,7 @@ namespace packing {
         if(box.at(x, y) != -1)
           out << box.at(x, y);
         else
-          out << ' ';
+          out << 'x';
       }
       out << std::endl;
     }

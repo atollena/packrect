@@ -123,7 +123,7 @@ namespace packing {
               << boxSize.height << std::endl;
 #endif
 
-    auto solver = RectangleContainmentSolver(input, boxSize);
+    auto solver = RectangleContainmentSolver(Invariants(input), boxSize);
     std::list<RectanglePosition> solution = solver.compute();
 
 #ifdef STATISTICS
