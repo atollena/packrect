@@ -10,7 +10,11 @@ namespace packing {
 
   RectangleContainmentSolver::RectangleContainmentSolver(const std::vector<Rectangle>& input,
                                                          const RectangleSize & size)
-    :input(input), boundingBox(size)
+    :input(input),
+     boundingBox(size)
+#ifdef STATISTICS
+    , backtrackNodes(0)
+#endif
   {
     assert(!input.empty());
     assert(size.width != 0 &&
@@ -36,6 +40,10 @@ namespace packing {
   {
     if(first == last)
       return true;
+
+#ifdef STATISTICS
+    ++backtrackNodes;
+#endif
     
     std::deque<RectanglePosition> candidatePositions =
       boundingBox.candidatePosition(*first);

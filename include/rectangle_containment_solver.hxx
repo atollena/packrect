@@ -35,6 +35,7 @@ namespace packing {
      *         solution.
      */
     std::list<RectanglePosition> compute();
+
   private:
 
     /**
@@ -59,6 +60,11 @@ namespace packing {
 
     const std::vector<Rectangle>& input;
     BoundingBox boundingBox;
+
+#ifdef STATISTICS
+  public:
+    int backtrackNodes; // number of backtracking nodes tried
+#endif
   };
 }
 

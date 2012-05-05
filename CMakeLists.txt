@@ -5,6 +5,7 @@ set (PROJECT_INCLUDE_DIR include)
 set (PROJECT_TESTS_DIR tests)
 
 set(CMAKE_CXX_FLAGS "-std=c++0x -Wall -Werror -Wextra -pedantic") # Add c++11 functionality
+set(CMAKE_CXX_FLAGS_DEBUG "-DSTATISTICS") # Add c++11 functionality
 
 find_package(Threads REQUIRED)
 

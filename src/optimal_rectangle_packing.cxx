@@ -10,15 +10,18 @@
 
 namespace packing {
 
-  OptimalRectanglePacking::OptimalRectanglePacking(std::vector<Rectangle> input)
+  OptimalRectanglePacking::OptimalRectanglePacking(const std::vector<Rectangle> & input)
     : input(input)
+#ifdef STATISTICS
+    , backtrackNodes(0)
+#endif
   {
     // Rectangles must be sorted in decreasing order of width for the
     // containment solving algorithm to be applied
-    std::sort(input.begin(), input.end(), Rectangle::BiggerWidth());
+    std::sort(this->input.begin(), this->input.end(), Rectangle::BiggerWidth());
   }
 
-  OptimalRectanglePacking::Packing OptimalRectanglePacking::compute() const
+  OptimalRectanglePacking::Packing OptimalRectanglePacking::compute()
   {
     std::deque<RectangleSize> boxSizes = candidateBoxSizes();
 
@@ -37,19 +40,18 @@ namespace packing {
 
     std::deque<RectangleSize>::const_iterator box = boxSizes.begin();
 
-    std::list<RectanglePosition> solution =
-      RectangleContainmentSolver(input, *box).compute();
+    std::list<RectanglePosition> solution = solveRectangleContainment(*box);
 
     while (solution.empty()) {
       ++box;
       assert(box != boxSizes.end()); /* We have the greedy solution to
                                         prevent that */
-#ifndef NDEBUG
-      std::cerr << "Testing box " << box->width << "*" << box->height << std::endl;
-#endif
-
-      solution = RectangleContainmentSolver(input, *box).compute();
+      solution = solveRectangleContainment(*box);
     }
+
+#ifdef STATISTICS
+    std::cerr << "Backtrack nodes " << backtrackNodes << std::endl;
+#endif
 
     return std::make_pair(*box,
                           solution);
@@ -111,5 +113,23 @@ namespace packing {
 
     // A possible improvement could be to place rectangles higher as
     // soon as a place is available.
+  }
+
+  std::list<RectanglePosition>
+  OptimalRectanglePacking::solveRectangleContainment(const RectangleSize & boxSize)
+  {
+#ifndef NDEBUG
+    std::cerr << "Testing box " << boxSize.width << "*"
+              << boxSize.height << std::endl;
+#endif
+
+    auto solver = RectangleContainmentSolver(input, boxSize);
+    std::list<RectanglePosition> solution = solver.compute();
+
+#ifdef STATISTICS
+    backtrackNodes += solver.backtrackNodes;
+#endif
+
+    return solution;
   }
 }

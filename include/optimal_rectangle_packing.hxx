@@ -16,13 +16,20 @@ namespace packing {
     typedef std::pair<RectangleSize,
                       std::list<RectanglePosition>> Packing;
 
-    OptimalRectanglePacking(const std::vector<Rectangle> input);
-    Packing compute () const;
+    OptimalRectanglePacking(const std::vector<Rectangle> & input);
+    Packing compute ();
   private:
     std::vector<Rectangle> input;
 
+    std::list<RectanglePosition>
+    solveRectangleContainment(const RectangleSize & boxSize);
+
     std::deque<RectangleSize> candidateBoxSizes() const;
     RectangleSize greedyRectanglePacker() const;
+
+#ifdef STATISTICS
+    int backtrackNodes;
+#endif
   };
 }
 
