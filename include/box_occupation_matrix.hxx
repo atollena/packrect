@@ -29,7 +29,9 @@ namespace packing {
      *
      * @return true if the
      */
-    RectangleId query(const Point & position) const;
+    RectangleId query(const Point & position) const {
+      return at(position.getX(), position.getY());
+    }
 
     /**
      * Set area for given rectangle and position as occupied

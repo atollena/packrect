@@ -16,16 +16,6 @@ namespace packing {
      emptyStripsTracker(*this)
   {}
 
-  RectangleId BoxOccupationMatrix::query(const Point & position) const
-  {
-    assert(position.getX() >= 0);
-    assert(position.getY() >= 0);
-    assert(position.getX() < width);
-    assert(position.getY() < height);
-
-    return at(position.getX(), position.getY());
-  }
-
   void BoxOccupationMatrix::set(const Rectangle & rectangle,
                                 const RectanglePosition & position)
   {
