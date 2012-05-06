@@ -15,7 +15,7 @@ namespace packing {
   {
     std::vector<Rectangle> input;
     for(int i = n; i >= 1; i--) {
-      input.push_back(Rectangle(i, i, i));
+      input.push_back(Rectangle(i + 1, i, i));
     }
     return input;
   }
