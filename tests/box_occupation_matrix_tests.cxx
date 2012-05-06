@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 
+#include <algorithm>
+
 #include "bounding_box.hxx"
 #include "box_occupation_matrix.hxx"
 #include "rectangle.hxx"
@@ -103,18 +105,59 @@ TEST_F(BoxOccupationMatrixTests, SetVertical)
   EXPECT_EQ(rectangle_id, testBox.query(Point(2, 4))) << testBox;
 }
 
-TEST_F(BoxOccupationMatrixTests, minContiguousFreeCellsOccupied)
-{
- 
-}
-
 TEST_F(BoxOccupationMatrixTests, minContiguousFreeCells)
 {
   testBox.set(Rectangle(9, 4, 1), RectanglePosition(Point(0, 0), false));
   testBox.unset(Rectangle(9, 4, 1), RectanglePosition(Point(0, 0), false));
-  // EXPECT_EQ(4, testBox.minContiguousFreeCells(Point(9, 3))) << testBox;
-  // EXPECT_EQ(9, testBox.minContiguousFreeCells(Point(5, 5))) << testBox;
-  auto result = testBox.minContiguousFreeCells().size();
-  EXPECT_EQ((unsigned int) 15 * 30, result) << testBox;
+
+  auto result = testBox.minContiguousFreeCells();
+
+  EXPECT_EQ((unsigned int) 16, result.size()) << testBox;
+  EXPECT_EQ(RectangleSize(WIDTH, HEIGHT).computeArea(),
+            std::accumulate(result.begin(), result.end(), 0));
+
+  EXPECT_EQ(0, result[1]) << testBox;
+  EXPECT_EQ(0, result[2]) << testBox;
+  EXPECT_EQ(0, result[3]) << testBox;
+  EXPECT_EQ(20, result[4]) << testBox;
+  EXPECT_EQ(0, result[5]) << testBox;
+  EXPECT_EQ(0, result[6]) << testBox;
+  EXPECT_EQ(0, result[7]) << testBox;
+  EXPECT_EQ(40, result[8]) << testBox;
+  EXPECT_EQ(27, result[9]) << testBox;
+  EXPECT_EQ(0, result[10]) << testBox;
+  EXPECT_EQ(0, result[11]) << testBox;
+  EXPECT_EQ(0, result[12]) << testBox;
+  EXPECT_EQ(0, result[13]) << testBox;
+  EXPECT_EQ(0, result[14]) << testBox;
+  EXPECT_EQ(348, result[15]) << testBox;
 }
 
+TEST_F(BoxOccupationMatrixTests, minContiguousFreeCellsTwoRects)
+{
+  testBox.set(Rectangle(9, 4, 1), RectanglePosition(Point(15, 5), false));
+  testBox.set(Rectangle(5, 2, 2), RectanglePosition(Point(10, 7), false));
+  testBox.set(Rectangle(8, 3, 3), RectanglePosition(Point(7, 10), false));
+
+  auto result = testBox.minContiguousFreeCells();
+
+  EXPECT_EQ((unsigned int) 16, result.size()) << testBox;
+  EXPECT_EQ(RectangleSize(WIDTH, HEIGHT).computeArea(),
+            std::accumulate(result.begin(), result.end(), 0));
+
+  EXPECT_EQ(7, result[1]) << testBox;
+  EXPECT_EQ(16, result[2]) << testBox;
+  EXPECT_EQ(3, result[3]) << testBox;
+  EXPECT_EQ(20, result[4]) << testBox;
+  EXPECT_EQ(45, result[5]) << testBox;
+  EXPECT_EQ(54 + 24, result[6]) << testBox;
+  EXPECT_EQ(26, result[7]) << testBox;
+  EXPECT_EQ(0, result[8]) << testBox;
+  EXPECT_EQ(27, result[9]) << testBox;
+  EXPECT_EQ(28, result[10]) << testBox;
+  EXPECT_EQ(0, result[11]) << testBox;
+  EXPECT_EQ(0, result[12]) << testBox;
+  EXPECT_EQ(0, result[13]) << testBox;
+  EXPECT_EQ(0, result[14]) << testBox;
+  EXPECT_EQ(115, result[15]) << testBox;
+}

@@ -99,11 +99,11 @@ namespace packing {
           ++contiguousEmptySpace;
         }
         else {
-          for(int i = 0; i < contiguousEmptySpace; ++i) {
+          for(int i = 1; i <= contiguousEmptySpace; ++i) {
             horizontalEmptyStrips[column - i][line] = contiguousEmptySpace;
           }
           contiguousEmptySpace = 0;
-          verticalEmptyStrips[column][line] = 0;
+          horizontalEmptyStrips[column][line] = 0;
           // TODO: Jump j of the size of the vector
         }
       }
