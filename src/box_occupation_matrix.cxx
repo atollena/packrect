@@ -13,8 +13,7 @@ namespace packing {
     :width(boxSize.width),
      height(boxSize.height),
      matrix(boxSize.computeArea(), -1),
-     verticalEmptyStrips(width, std::vector<int>(height, height)),
-     horizontalEmptyStrips(width, std::vector<int>(height, width))
+     emptyStripsTracker(*this)
   {}
 
   RectangleId BoxOccupationMatrix::query(const Point & position) const
@@ -70,10 +69,15 @@ namespace packing {
                   id);
     }
 
-    recomputeEmptyStrips(position.getX(),
-                         position.getY(),
-                         rectangleWidth,
-                         rectangleHeight);
+    emptyStripsTracker.recomputeEmptyStrips(position.getX(),
+                                            position.getY(),
+                                            rectangleWidth,
+                                            rectangleHeight);
+  }
+
+  RectangleSize BoxOccupationMatrix::getSize() const
+  {
+    return RectangleSize(width, height);
   }
 
   std::vector<RectangleId>::iterator BoxOccupationMatrix::at(int x, int y)
@@ -86,69 +90,10 @@ namespace packing {
     return matrix[y*width + x];
   }
 
-  void BoxOccupationMatrix::recomputeEmptyStrips(int positionX,
-                                                 int positionY,
-                                                 int rectangleWidth,
-                                                 int rectangleHeight)
-  {
-    // Compute horizontal strips
-    for(int line = positionY; line < positionY + rectangleHeight; ++line) {
-      int contiguousEmptySpace = 0;
-      for(int column = 0; column < width; column++) {
-        if(query(Point(column, line)) == -1) {
-          ++contiguousEmptySpace;
-        }
-        else {
-          for(int i = 1; i <= contiguousEmptySpace; ++i) {
-            horizontalEmptyStrips[column - i][line] = contiguousEmptySpace;
-          }
-          contiguousEmptySpace = 0;
-          horizontalEmptyStrips[column][line] = 0;
-          // TODO: Jump j of the size of the vector
-        }
-      }
-      for(int i = 1; i <= contiguousEmptySpace; ++i) {
-        horizontalEmptyStrips[width - i][line] = contiguousEmptySpace;
-      }
-    }
-
-    // Compute vertical strips
-    for(int column = positionX; column < positionX + rectangleWidth; ++column) {
-      int contiguousEmptySpace = 0;
-      for(int line = 0; line < height; line++) {
-        if(query(Point(column, line)) == -1) {
-          ++contiguousEmptySpace;
-        }
-        else {
-          std::fill_n(verticalEmptyStrips[column].begin() + line - contiguousEmptySpace,
-                      contiguousEmptySpace,
-                      contiguousEmptySpace);
-          contiguousEmptySpace = 0;
-          verticalEmptyStrips[column][line] = 0;
-          // TODO: Jump j of the size of the vector
-        }
-      }
-      std::fill_n(verticalEmptyStrips[column].begin() + height - contiguousEmptySpace,
-                  contiguousEmptySpace,
-                  contiguousEmptySpace);
-    }
-  }
-
   std::deque<int>
   BoxOccupationMatrix::minContiguousFreeCells() const
   {
-    std::deque<int> result;
-    for(unsigned int i = 0; i < verticalEmptyStrips.size(); ++i) {
-      for(unsigned int j = 0; j < verticalEmptyStrips[i].size(); ++j) {
-        unsigned int toInsert = std::min(verticalEmptyStrips[i][j],
-                                         horizontalEmptyStrips[i][j]);
-        if(result.size() <= toInsert) {
-          result.resize(toInsert + 1);
-        }
-        ++result[toInsert];
-      }
-    }
-    return result;
+    return emptyStripsTracker.minContiguousFreeCells();
   }
 
   namespace {

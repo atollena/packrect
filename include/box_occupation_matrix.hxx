@@ -5,13 +5,12 @@
 #include <vector>
 #include <deque>
 
+#include "empty_strips_tracker.hxx"
 #include "rectangle.hxx"
 #include "rectangle_size.hxx"
 
 namespace packing {
-
   class RectanglePosition;
-  class BoundingBox;
   class Point;
 
   /**
@@ -44,7 +43,16 @@ namespace packing {
     void unset(const Rectangle & rectangle,
                const RectanglePosition & position);
 
+    RectangleSize getSize() const;
 
+    /**
+     * Returns integers representing, for each index, the number of
+     * empty cells, the minimum of contiguous empty space in the
+     * horizontal or vertical strip of this cell. This gives a higher
+     * bound for the shortest dimension of a rectangle that could
+     * possibly be placed in this cell.
+     */
+    std::deque<int> minContiguousFreeCells() const;
 
     /**
      * Print out the content of the bounding box in a user-friendly
@@ -54,9 +62,11 @@ namespace packing {
     friend std::ostream& operator<<(std::ostream& out, const BoxOccupationMatrix& box);
 
   private:
-    int width;
-    int height;
+    const int width;
+    const int height;
     std::vector<RectangleId> matrix;
+
+    EmptyStripsTracker emptyStripsTracker;
 
     /**
      * Sets occupation at position with width and height to the given
@@ -76,20 +86,6 @@ namespace packing {
      * Returns the element with coordonate x, y
      */
     RectangleId at(int x, int y) const;
-
-
-    // TODO: Document and refactor
-  public:
-    std::deque<int> minContiguousFreeCells() const;
-
-  private:
-    std::vector<std::vector<int>> verticalEmptyStrips;
-    std::vector<std::vector<int>> horizontalEmptyStrips;
-
-    void recomputeEmptyStrips(int positionX,
-                              int positionY,
-                              int rectangleWidth,
-                              int rectangleHeight);
   };
 }
 

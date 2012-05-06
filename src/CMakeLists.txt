@@ -2,6 +2,7 @@
 add_library (packer STATIC
   bounding_box.cxx
   box_occupation_matrix.cxx
+  empty_strips_tracker.cxx
   input_parser.cxx
   invariants.cxx
   optimal_rectangle_packing.cxx
