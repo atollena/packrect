@@ -102,12 +102,12 @@ TEST_F(RectangleContainmentSolverTests, Square10_tooSmall)
   checkNoSolution(createDecrementingSquares(10), RectangleSize(26, 15));
 }
 
-TEST_F(RectangleContainmentSolverTests, DISABLED_Rectangle10_tooSmall)
+TEST_F(RectangleContainmentSolverTests, Rectangle10_tooSmall)
 {
   checkNoSolution(createDecrementingRectangles(10), RectangleSize(26, 16));
 }
 
-TEST_F(RectangleContainmentSolverTests, DISABLED_Constant10_tooSmall)
+TEST_F(RectangleContainmentSolverTests, Constant10_tooSmall)
 {
   checkNoSolution(createSameRectangles(100), RectangleSize(199, 1));
 }
