@@ -15,10 +15,10 @@ protected:
   {
     auto solution = OptimalRectanglePacking(input).compute();
 
-    EXPECT_EQ(expectedArea, solution.first.computeArea())
-      << solutionToString(solution.first,
-                          input,
-                          solution.second);
+    EXPECT_EQ(expectedArea, solution.boxSize.computeArea())
+      << solutionToString(solution.boxSize,
+                          solution.rectangles,
+                          solution.rectanglePositions);
   }
 };
 

@@ -6,18 +6,16 @@
 #include <vector>
 
 #include "rectangle_size.hxx"
+#include "solution.hxx"
 
 namespace packing {
   class Rectangle;
   class RectanglePosition;
-  
+
   class OptimalRectanglePacking {
   public:
-    typedef std::pair<RectangleSize,
-                      std::list<RectanglePosition>> Packing;
-
     OptimalRectanglePacking(const std::vector<Rectangle> & input);
-    Packing compute ();
+    Solution compute ();
   private:
     std::vector<Rectangle> input;
 

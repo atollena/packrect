@@ -10,10 +10,12 @@ int main ()
 
   auto solution = packing::OptimalRectanglePacking(input).compute();
 
-  std::cout << solution.first.computeArea() << std::endl;
+  std::cout << solution.boxSize.computeArea() << std::endl;
 
-  std::cerr << solution.first.height << "x" << solution.first.width << ":" << std::endl;
-  std::cerr << solutionToString(solution.first,
-                                input,
-                                solution.second);
+  std::cerr << solution.boxSize.height << "x"
+            << solution.boxSize.width << ":" << std::endl;
+
+  std::cerr << solutionToString(solution.boxSize,
+                                solution.rectangles,
+                                solution.rectanglePositions);
 }

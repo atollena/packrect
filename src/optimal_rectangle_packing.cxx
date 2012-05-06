@@ -22,7 +22,7 @@ namespace packing {
     std::sort(this->input.begin(), this->input.end(), Rectangle::BiggerWidth());
   }
 
-  OptimalRectanglePacking::Packing OptimalRectanglePacking::compute()
+  Solution OptimalRectanglePacking::compute()
   {
     std::deque<RectangleSize> boxSizes = candidateBoxSizes();
 
@@ -54,8 +54,7 @@ namespace packing {
     std::cerr << "Backtrack nodes " << backtrackNodes << std::endl;
 #endif
 
-    return std::make_pair(*box,
-                          solution);
+    return Solution(*box, input, solution);
   }
 
   std::deque<RectangleSize> OptimalRectanglePacking::candidateBoxSizes() const
