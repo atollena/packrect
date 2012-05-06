@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
-#ifndef NDEBUG
+
+#if !defined NDEBUG || defined STATISTICS
 #include <iostream>
 #endif
 

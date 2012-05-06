@@ -16,7 +16,7 @@ namespace packing {
     for(int j = 0; j < boxSize.height; ++j) {
       for(int i = 0; i < boxSize.width; ++i) {
         unsigned int binSize = occupationMatrix.minContiguousFreeCells(Point(i, j));
-        if(binSize > areaAvailableForBinSize.size()) {
+        if(binSize >= areaAvailableForBinSize.size()) {
           areaAvailableForBinSize.resize(binSize + 1);
         }
         ++(areaAvailableForBinSize[binSize]);
@@ -32,7 +32,7 @@ namespace packing {
         iter != last;
         iter++) {
       unsigned int minDimension = std::min(iter->getW(), iter->getH());
-      if(minDimension > elements.size()) {
+      if(minDimension >= elements.size()) {
         elements.resize(minDimension + 1);
       }
       elements[minDimension] += iter->getArea();
@@ -41,7 +41,9 @@ namespace packing {
     /* See how much wasted space we have */
     int wastedSpace = 0;
     int carryOver = 0;
-    for(unsigned int i = 1; i < areaAvailableForBinSize.size(); ++i) {
+    for(unsigned int i = 1;
+        i < areaAvailableForBinSize.size() && i < elements.size();
+        ++i) {
       elements[i] += carryOver;
       if(areaAvailableForBinSize[i] > elements[i]) {
         wastedSpace += areaAvailableForBinSize[i] - elements[i];
