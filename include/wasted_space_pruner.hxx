@@ -2,6 +2,7 @@
 #define WASTED_SPACE_PRUNER_HXX
 
 #include <vector>
+#include <deque>
 
 #include "box_occupation_matrix.hxx"
 
