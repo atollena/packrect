@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <vector>
+#include <deque>
 
 #include "rectangle.hxx"
 #include "rectangle_size.hxx"
@@ -43,15 +44,7 @@ namespace packing {
     void unset(const Rectangle & rectangle,
                const RectanglePosition & position);
 
-    /**
-     * This function is useful for our pruning algorithm.  It returns,
-     * for a free cell, the minimum of horizontal or vertical
-     * contiguous number of cells that are free on the right and left
-     * (or top and bottom) of this cell.
-     *
-     * Returns 0 if the cell is occupied. 
-     */
-    int minContiguousFreeCells(const Point & position) const;
+
 
     /**
      * Print out the content of the bounding box in a user-friendly
@@ -69,7 +62,7 @@ namespace packing {
      * Sets occupation at position with width and height to the given
      * rectangle id.
      */
-    void set(Point position,
+    void set(const Point & position,
              int width,
              int height,
              RectangleId id);
@@ -83,6 +76,20 @@ namespace packing {
      * Returns the element with coordonate x, y
      */
     RectangleId at(int x, int y) const;
+
+
+    // TODO: Document and refactor
+  public:
+    std::deque<int> minContiguousFreeCells() const;
+
+  private:
+    std::vector<std::vector<int>> verticalEmptyStrips;
+    std::vector<std::vector<int>> horizontalEmptyStrips;
+
+    void recomputeEmptyStrips(int positionX,
+                              int positionY,
+                              int rectangleWidth,
+                              int rectangleHeight);
   };
 }
 

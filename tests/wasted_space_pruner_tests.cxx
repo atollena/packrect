@@ -49,9 +49,9 @@ TEST(WastedSpacePrunerTests, SiteExample)
 
   auto occupationMatrix = BoxOccupationMatrix(boxSize);
   occupationMatrix.set(Rectangle(8, 8, 0),
-                       RectanglePosition(Point(0, 0), false));
+                       RectanglePosition(Point(0, 0), true));
   occupationMatrix.set(Rectangle(4, 3, 1),
-                       RectanglePosition(Point(8, 0), false));
+                       RectanglePosition(Point(8, 0), true));
   auto remainingInput = std::vector<Rectangle> {
     Rectangle(4, 3, 2)
   };

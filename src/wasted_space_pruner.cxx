@@ -25,17 +25,9 @@ namespace packing {
      * picking the smallest value as a result.
      */
     std::deque<int>
-    constructBinsCapacities (const RectangleSize & boxSize,
-                             const BoxOccupationMatrix & occupationMatrix)
+    constructBinsCapacities (const BoxOccupationMatrix & occupationMatrix)
     {
-      std::deque<int> result;
-      for(int j = 0; j < boxSize.height; ++j) {
-        for(int i = 0; i < boxSize.width; ++i) {
-          int binSize = occupationMatrix.minContiguousFreeCells(Point(i, j));
-          increase(result, binSize, 1);
-        }
-      }
-      return result;
+      return occupationMatrix.minContiguousFreeCells();
     }
 
     /**
@@ -92,7 +84,7 @@ namespace packing {
                                       std::vector<Rectangle>::const_iterator last,
                                       int totalRectanglesArea) const
   {
-    std::deque<int> binCapacities = constructBinsCapacities(boxSize, occupationMatrix);
+    std::deque<int> binCapacities = constructBinsCapacities(occupationMatrix);
 
     std::deque<int> elements = constructElements(first, last);
 
