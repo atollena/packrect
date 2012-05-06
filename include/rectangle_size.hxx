@@ -5,9 +5,14 @@
 
 namespace packing {
   struct RectangleSize {
-    RectangleSize(int width, int height);
+    RectangleSize(int width, int height)
+      :width(width), height(height)
+    {}
   
-    int computeArea() const;
+    int computeArea() const
+    {
+      return width * height;
+    }
 
     int width;
     int height;
@@ -18,7 +23,10 @@ namespace packing {
     struct SmallerArea : public std::binary_function<RectangleSize, RectangleSize, bool>
     {
       bool operator()(const RectangleSize & first,
-                      const RectangleSize & second) const;
+                      const RectangleSize & second) const
+      {
+        return first.computeArea() < second.computeArea();
+      };
     };
   };
 }

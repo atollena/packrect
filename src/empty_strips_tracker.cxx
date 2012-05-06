@@ -4,12 +4,12 @@
 namespace packing {
   EmptyStripsTracker::EmptyStripsTracker(const BoxOccupationMatrix & occupationMatrix)
     : occupationMatrix(occupationMatrix),
-      verticalEmptyStrips(occupationMatrix.getSize().width,
-                          std::vector<int>(occupationMatrix.getSize().height,
-                                           occupationMatrix.getSize().height)),
-      horizontalEmptyStrips(occupationMatrix.getSize().width,
-                            std::vector<int>(occupationMatrix.getSize().height,
-                                             occupationMatrix.getSize().width))
+      verticalEmptyStrips(occupationMatrix.width,
+                          std::vector<int>(occupationMatrix.height,
+                                           occupationMatrix.height)),
+      horizontalEmptyStrips(occupationMatrix.width,
+                            std::vector<int>(occupationMatrix.height,
+                                             occupationMatrix.width))
   {}
 
 
@@ -37,7 +37,7 @@ namespace packing {
     // Compute horizontal strips
     for(int line = positionY; line < positionY + rectangleHeight; ++line) {
       int contiguousEmptySpace = 0;
-      for(int column = 0; column < occupationMatrix.getSize().width; column++) {
+      for(int column = 0; column < occupationMatrix.width; column++) {
         if(occupationMatrix.query(Point(column, line)) == -1) {
           ++contiguousEmptySpace;
         }
@@ -51,14 +51,14 @@ namespace packing {
         }
       }
       for(int i = 1; i <= contiguousEmptySpace; ++i) {
-        horizontalEmptyStrips[occupationMatrix.getSize().width - i][line] = contiguousEmptySpace;
+        horizontalEmptyStrips[occupationMatrix.width - i][line] = contiguousEmptySpace;
       }
     }
 
     // Compute vertical strips
     for(int column = positionX; column < positionX + rectangleWidth; ++column) {
       int contiguousEmptySpace = 0;
-      for(int line = 0; line < occupationMatrix.getSize().height; line++) {
+      for(int line = 0; line < occupationMatrix.height; line++) {
         if(occupationMatrix.query(Point(column, line)) == -1) {
           ++contiguousEmptySpace;
         }
@@ -71,7 +71,7 @@ namespace packing {
           // TODO: Jump j of the size of the vector
         }
       }
-      std::fill_n(verticalEmptyStrips[column].begin() + occupationMatrix.getSize().height - contiguousEmptySpace,
+      std::fill_n(verticalEmptyStrips[column].begin() + occupationMatrix.height - contiguousEmptySpace,
                   contiguousEmptySpace,
                   contiguousEmptySpace);
     }

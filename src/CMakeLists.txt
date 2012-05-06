@@ -6,11 +6,8 @@ add_library (packer STATIC
   input_parser.cxx
   invariants.cxx
   optimal_rectangle_packing.cxx
-  point.cxx
-  rectangle.cxx
   rectangle_containment_solver.cxx
   rectangle_position.cxx
-  rectangle_size.cxx
   solution_to_string.cxx
   wasted_space_pruner.cxx)
 add_executable (packrect packing_main.cxx)

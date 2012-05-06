@@ -75,11 +75,6 @@ namespace packing {
                                             rectangleHeight);
   }
 
-  RectangleSize BoxOccupationMatrix::getSize() const
-  {
-    return RectangleSize(width, height);
-  }
-
   std::vector<RectangleId>::iterator BoxOccupationMatrix::at(int x, int y)
   {
     return matrix.begin() + (y*width + x);

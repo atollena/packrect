@@ -43,8 +43,6 @@ namespace packing {
     void unset(const Rectangle & rectangle,
                const RectanglePosition & position);
 
-    RectangleSize getSize() const;
-
     /**
      * Returns integers representing, for each index, the number of
      * empty cells, the minimum of contiguous empty space in the
@@ -61,9 +59,10 @@ namespace packing {
      */
     friend std::ostream& operator<<(std::ostream& out, const BoxOccupationMatrix& box);
 
-  private:
     const int width;
     const int height;
+
+  private:
     std::vector<RectangleId> matrix;
 
     EmptyStripsTracker emptyStripsTracker;
