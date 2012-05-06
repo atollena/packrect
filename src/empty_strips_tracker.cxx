@@ -47,7 +47,7 @@ namespace packing {
           }
           contiguousEmptySpace = 0;
           horizontalEmptyStrips[column][line] = 0;
-          // TODO: Jump j of the size of the vector
+          // TODO: Jump j of the size of the rectangle
         }
       }
       for(int i = 1; i <= contiguousEmptySpace; ++i) {
@@ -68,7 +68,7 @@ namespace packing {
                       contiguousEmptySpace);
           contiguousEmptySpace = 0;
           verticalEmptyStrips[column][line] = 0;
-          // TODO: Jump j of the size of the vector
+          // TODO: Jump j of the size of the rectangle
         }
       }
       std::fill_n(verticalEmptyStrips[column].begin() + occupationMatrix.height - contiguousEmptySpace,
