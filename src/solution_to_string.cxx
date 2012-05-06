@@ -19,7 +19,27 @@ namespace packing {
     zip(const std::vector<Rectangle> & rectangles,
         const std::list<RectanglePosition> & positions);
 
-  static std::string concatenateLines(const std::vector<std::string> & lines);
+  namespace {
+    std::string concatenateLines(const std::vector<std::string> & lines)
+    {
+      std::stringstream result;
+      for(std::string line : lines) {
+        result << line << std::endl;
+      }
+      return result.str();
+    }
+
+    std::string spanHorizontally(const std::string & line)
+    {
+      std::string result;
+      for(auto c: line) {
+        result += c;
+        result += ' ';
+      }
+      result.erase(result.end() - 1);
+      return result;
+    }
+  }
 
   std::string solutionToString (const RectangleSize & box,
                                 const std::vector<Rectangle> & rectangles,
@@ -54,7 +74,12 @@ namespace packing {
       setPoint(lines, position.getTopLeft(rectangle), '+');
     }
 
-    return concatenateLines(lines);
+    std::vector<std::string> spannedLines;
+    spannedLines.resize(lines.size());
+    std::transform(lines.begin(), lines.end(), spannedLines.begin(),
+                   spanHorizontally);
+    
+    return concatenateLines(spannedLines);
   }
 
   static void setPoint(std::vector<std::string> & lines,
@@ -64,19 +89,9 @@ namespace packing {
     lines[point.getY()][point.getX()] = c;
   }
 
-  static std::string
-  concatenateLines(const std::vector<std::string> & lines) {
-    std::stringstream result;
-    for(std::string line : lines) {
-      result << line << std::endl;
-    }
-    return result.str();
-  }
-
-
   static std::vector<std::pair<Rectangle, RectanglePosition>>
-    zip(const std::vector<Rectangle> & rectangles,
-        const std::list<RectanglePosition> & positions) {
+                  zip(const std::vector<Rectangle> & rectangles,
+                      const std::list<RectanglePosition> & positions) {
     std::vector<std::pair<Rectangle, RectanglePosition>> solution;
 
     auto position = positions.begin();
@@ -89,5 +104,4 @@ namespace packing {
     }
     return solution;
   }
-
 }

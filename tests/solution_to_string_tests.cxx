@@ -20,14 +20,14 @@ TEST(SolutionToString, Trivial1)
   };
 
   std::stringstream expected;
-  expected << "+------+" << std::endl
-           << "|      |" << std::endl
-           << "|      |" << std::endl
-           << "|      |" << std::endl
-           << "|      |" << std::endl
-           << "|      |" << std::endl
-           << "|      |" << std::endl
-           << "+------+" << std::endl;
+  expected << "+ - - - - - - +" << std::endl
+           << "|             |" << std::endl
+           << "|             |" << std::endl
+           << "|             |" << std::endl
+           << "|             |" << std::endl
+           << "|             |" << std::endl
+           << "|             |" << std::endl
+           << "+ - - - - - - +" << std::endl;
 
   std::string result = solutionToString(RectangleSize(8, 8),
                                         rectangles,
@@ -48,10 +48,10 @@ TEST(SolutionToString, TrivialVertical)
   };
 
   std::stringstream expected;
-  expected << "+-+" << std::endl
-           << "| |" << std::endl
-           << "| |" << std::endl
-           << "+-+" << std::endl;
+  expected << "+ - +" << std::endl
+           << "|   |" << std::endl
+           << "|   |" << std::endl
+           << "+ - +" << std::endl;
 
   std::string result = solutionToString(RectangleSize(3, 4),
                                         rectangles,
@@ -72,9 +72,9 @@ TEST(SolutionToString, TrivialHorizontal)
   };
 
   std::stringstream expected;
-  expected << "+--+" << std::endl
-           << "|  |" << std::endl
-           << "+--+" << std::endl;
+  expected << "+ - - +" << std::endl
+           << "|     |" << std::endl
+           << "+ - - +" << std::endl;
 
   std::string result = solutionToString(RectangleSize(4, 3),
                                         rectangles,
@@ -99,14 +99,14 @@ TEST(SolutionToString, SiteExample)
   };
 
   std::stringstream expected;
-  expected << "+------++-+" << std::endl
-           << "|      || |" << std::endl
-           << "|      || |" << std::endl
-           << "|      |+-+" << std::endl
-           << "|      |+-+" << std::endl
-           << "|      || |" << std::endl
-           << "|      || |" << std::endl
-           << "+------++-+" << std::endl;
+  expected << "+ - - - - - - + + - +" << std::endl
+           << "|             | |   |" << std::endl
+           << "|             | |   |" << std::endl
+           << "|             | + - +" << std::endl
+           << "|             | + - +" << std::endl
+           << "|             | |   |" << std::endl
+           << "|             | |   |" << std::endl
+           << "+ - - - - - - + + - +" << std::endl;
 
 
   std::string result = solutionToString(RectangleSize(11, 8),
