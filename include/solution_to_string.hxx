@@ -5,14 +5,15 @@
 #include <vector>
 #include <list>
 
-#include "point.hxx"
 #include "rectangle_size.hxx"
 
 namespace packing {
-
   class Rectangle;
   class RectanglePosition;
 
+  /**
+   * Creates a string representation of a solution.
+   */
   std::string solutionToString (const RectangleSize & box,
                                 const std::vector<Rectangle> & rectangles,
                                 const std::list<RectanglePosition> & position);

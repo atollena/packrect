@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cassert>
 
-#if !defined NDEBUG || defined STATISTICS
+#if !defined SHOW_PROGRESS || defined STATISTICS
 #include <iostream>
 #endif
 
@@ -44,6 +44,10 @@ namespace packing {
     std::list<RectanglePosition> solution = solveRectangleContainment(*box);
 
     while (solution.empty()) {
+#ifdef SHOW_PROGRESS
+      std::cerr << "Trying box " << box - boxSizes.begin() + 1
+                << "/" << boxSizes.size() << std::endl;
+#endif
       ++box;
       assert(box != boxSizes.end()); /* We have the greedy solution to
                                         prevent that */
@@ -51,7 +55,7 @@ namespace packing {
     }
 
 #ifdef STATISTICS
-    std::cerr << "Backtrack nodes " << backtrackNodes << std::endl;
+    std::cerr << "Backtrack nodes: " << backtrackNodes << std::endl;
 #endif
 
     return Solution(*box, input, solution);
@@ -118,7 +122,7 @@ namespace packing {
   std::list<RectanglePosition>
   OptimalRectanglePacking::solveRectangleContainment(const RectangleSize & boxSize)
   {
-#ifndef NDEBUG
+#ifndef SHOW_PROGRESS
     std::cerr << "Testing box " << boxSize.width << "*"
               << boxSize.height << std::endl;
 #endif

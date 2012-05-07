@@ -47,12 +47,12 @@ TEST_F(OptimalRectanglePackingTests, Constant100)
   check(createSameRectangles(100), 200);
 }
 
-TEST_F(OptimalRectanglePackingTests, Square14)
+TEST_F(OptimalRectanglePackingTests, DISABLED_Square14)
 {
   check(createDecrementingSquares(14), 23*45);
 }
 
-TEST_F(OptimalRectanglePackingTests, Rectangle14)
+TEST_F(OptimalRectanglePackingTests, DISABLED_Rectangle14)
 {
   check(createDecrementingRectangles(14), 28*40);
 }
