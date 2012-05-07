@@ -8,7 +8,7 @@ int main ()
 {
   std::vector<packing::Rectangle> input = packing::parseInput(std::cin);
 
-  auto solution = packing::OptimalRectanglePacking(input).compute();
+  auto solution = packing::optimalRectanglePacking(input);
 
   std::cout << solution.boxSize.computeArea() << std::endl;
 

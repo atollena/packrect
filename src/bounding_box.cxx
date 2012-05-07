@@ -67,8 +67,6 @@ namespace packing {
     std::deque<RectanglePosition> result;
     for(int i = 0; i < size.height; i++) {
       for(int j = 0; j < size.width; j++) {
-        // Iterate on the width first as it maximizes cache locality
-        // due to the way the bouding box matrix is stored
        checkAndInsertPosition(j, i, rectangle, result);
       }
     }

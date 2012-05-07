@@ -13,7 +13,7 @@ protected:
   void check(const std::vector<Rectangle> & input,
              int expectedArea)
   {
-    auto solution = OptimalRectanglePacking(input).compute();
+    auto solution = optimalRectanglePacking(input);
 
     EXPECT_EQ(expectedArea, solution.boxSize.computeArea())
       << solutionToString(solution.boxSize,

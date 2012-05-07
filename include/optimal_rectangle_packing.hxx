@@ -5,30 +5,13 @@
 #include <deque>
 #include <vector>
 
-#include "rectangle_size.hxx"
 #include "solution.hxx"
 
 namespace packing {
   class Rectangle;
   class RectanglePosition;
 
-  class OptimalRectanglePacking {
-  public:
-    OptimalRectanglePacking(const std::vector<Rectangle> & input);
-    Solution compute ();
-  private:
-    std::vector<Rectangle> input;
-
-    std::list<RectanglePosition>
-    solveRectangleContainment(const RectangleSize & boxSize);
-
-    std::deque<RectangleSize> candidateBoxSizes() const;
-    RectangleSize greedyRectanglePacker() const;
-
-#ifdef STATISTICS
-    int backtrackNodes;
-#endif
-  };
+  Solution optimalRectanglePacking(const std::vector<Rectangle> & input);
 }
 
 #endif // PACKING_MIN_AREA_HPP

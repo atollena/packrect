@@ -3,6 +3,7 @@
 
 #include "rectangle.hxx"
 #include "rectangle_position.hxx"
+#include "rectangle_size.hxx"
 
 namespace packing {
   struct Solution {

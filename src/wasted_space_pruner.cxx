@@ -58,6 +58,7 @@ namespace packing {
       for(unsigned int i = 1;
           i < binCapacities.size() && i < elements.size();
           ++i) {
+
         if(binCapacities[i] > elements[i] + carryOver) {
           // All elements of smaller size fit in this bin, and there
           // is some unused capacity.
@@ -85,9 +86,7 @@ namespace packing {
                                       int totalRectanglesArea) const
   {
     std::deque<int> binCapacities = constructBinsCapacities(occupationMatrix);
-
     std::deque<int> elements = constructElements(first, last);
-
     int wastedSpace = computeWastedSpace(binCapacities, elements);
 
     // If wasted space added to the sum of all rectangle areas exceeds
